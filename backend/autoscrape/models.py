@@ -12,7 +12,7 @@ class CarMake(models.Model):
         return self.carmodel_set.count() > 0
 
 class CarModel(models.Model):
-    carmake_pk = models.ForeignKey(CarMake, on_delete=models.CASCADE)
+    carmake_pk = models.ForeignKey(CarMake, related_name= 'models', on_delete=models.CASCADE)
     carmodel_name = models.CharField(max_length=50)
     carmodel_value = models.CharField(max_length=50)
 
@@ -27,8 +27,8 @@ class CarModel(models.Model):
         return self.carresult_set.count() > 100
 
 class CarTrim(models.Model):
-    carmake_pk = models.ForeignKey(CarMake, on_delete=models.CASCADE)
-    carmodel_pk = models.ForeignKey(CarModel, on_delete=models.CASCADE)
+    carmake_pk = models.ForeignKey(CarMake, related_name='trims', on_delete=models.CASCADE)
+    carmodel_pk = models.ForeignKey(CarModel, related_name='trims', on_delete=models.CASCADE)
     cartrim_name = models.CharField(max_length=50)
     cartrim_value = models.CharField(max_length=50)
 
