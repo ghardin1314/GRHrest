@@ -16,7 +16,7 @@ const ProjectCard = (props) => {
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image={props.img}
+            image={props.image}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
