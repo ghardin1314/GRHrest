@@ -5,17 +5,26 @@ import BaseRouter from "./routes";
 
 
 import CustomLayout from "./containers/Layout";
+import LoadingBackdrop from "./components/LoadingBackdrop"
 
-function App() {
+class App extends React.Component {
+  render(){
   return (
     <div>
       <Router>
         <CustomLayout>
             <BaseRouter />
+            <LoadingBackdrop/>
         </CustomLayout>
       </Router>
     </div>
   );
+}}
+
+const mapStateToProps = state => {
+  return{
+    loading: state.loading
+  }
 }
 
-export default App;
+export default connect(mapStateToProps)(App);

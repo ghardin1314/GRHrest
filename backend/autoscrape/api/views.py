@@ -145,12 +145,13 @@ class CarResultViewSet(viewsets.ModelViewSet):
         carmodel_pk = self.request.query_params.get('carmodel_pk', None)
         cartrim_pk = self.request.query_params.get('cartrim_pk', None)
         
+        print(carmake_pk,carmodel_pk,cartrim_pk)
 
-        if cartrim_pk is not None:
+        if cartrim_pk is not None and cartrim_pk != '':
             queryset = CarResult.objects.filter(cartrim_pk=cartrim_pk)
-        elif carmodel_pk is not None:
+        elif carmodel_pk is not None and carmodel_pk != '':
             queryset = CarResult.objects.filter(carmodel_pk=carmodel_pk)
-        elif carmake_pk is not None:
+        elif carmake_pk is not None and carmake_pk != '':
             queryset = CarResult.objects.filter(carmake_pk=carmake_pk)
         else:
             queryset = CarResult.objects.all()
