@@ -2,11 +2,11 @@ from django.db import models
 
 
 class CarMake(models.Model):
-    carmake_name = models.CharField(max_length=50)
-    carmake_value = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    value = models.CharField(max_length=50)
 
     def __str__(self):
-        return str(self.pk) + ' ' + self.carmake_name
+        return str(self.pk) + ' ' + self.name
 
     def has_somemodels(self):
         return self.models.count() > 0
@@ -16,11 +16,11 @@ class CarMake(models.Model):
 
 class CarModel(models.Model):
     carmake_pk = models.ForeignKey(CarMake, related_name= 'models', on_delete=models.CASCADE)
-    carmodel_name = models.CharField(max_length=50)
-    carmodel_value = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    value = models.CharField(max_length=50)
 
     def __str__(self):
-        return str(self.pk) + ' ' + str(self.carmake_pk) + ' ' + self.carmodel_name
+        return str(self.pk) + ' ' + str(self.carmake_pk) + ' ' + self.name
 
     def has_sometrims(self):
         return self.trims.count() > 0
@@ -32,11 +32,11 @@ class CarModel(models.Model):
 class CarTrim(models.Model):
     carmake_pk = models.ForeignKey(CarMake, related_name='trims', on_delete=models.CASCADE)
     carmodel_pk = models.ForeignKey(CarModel, related_name='trims', on_delete=models.CASCADE)
-    cartrim_name = models.CharField(max_length=50)
-    cartrim_value = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    value = models.CharField(max_length=50)
 
     def __str__(self):
-        return str(self.pk) + ' ' + str(self.carmake_pk) + ' ' + str(self.carmodel_pk) + ' ' + self.cartrim_name
+        return str(self.pk) + ' ' + str(self.carmake_pk) + ' ' + str(self.carmodel_pk) + ' ' + self.name
 
     #TODO: write test
     def has_someresult(self):

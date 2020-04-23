@@ -8,26 +8,29 @@ from django.shortcuts import get_object_or_404
 
 from autoscrape.models import CarMake, CarModel, CarTrim, CarResult
 from .serializers import CarMakeSerializer, CarModelSerializer, CarTrimSerializer, CarResultSerializer
+from .process_results import processResults
+
 
 @api_view(['GET'])
 def getMakeHasModels(request):
-    carmake_pk = request.data.get('carmake_pk', None)
-    print(carmake_pk)
+    # print(request.query_params)
+    carmake_pk = request.query_params.get('carmake_pk', None)
+    # print(carmake_pk)
     if carmake_pk is not None:
         carmake = CarMake.objects.get(id=carmake_pk)
-        return Response({"Has models": carmake.has_somemodels()})
+        return Response({"response": carmake.has_somemodels()})
     else:
-        return Response({"Has models": False})
+        return Response({"response": False})
 
 @api_view(['GET'])
 def getModelHasTrims(request):
-    carmodel_pk = request.data.get('carmodel_pk', None)
-    print(carmodel_pk)
+    carmodel_pk = request.query_params.get('carmodel_pk', None)
+    # print(carmodel_pk)
     if carmodel_pk is not None:
         carmodel = CarModel.objects.get(id=carmodel_pk)
-        return Response({"Has trims": carmodel.has_sometrims()})
+        return Response({"response": carmodel.has_sometrims()})
     else:
-        return Response({"Has trims": False})
+        return Response({"response": False})
 
 class getPopulatedMakes(viewsets.ModelViewSet):
  
@@ -52,7 +55,7 @@ class getPopulatedModels(viewsets.ModelViewSet):
         Filters for carmake if requested
         """
         
-        carmake_pk = self.request.data.get('carmake_pk', None)
+        carmake_pk = self.request.query_params.get('carmake_pk', None)
         if carmake_pk is not None:
             preSet = CarModel.objects.filter(carmake_pk=carmake_pk)
         else:
@@ -71,7 +74,7 @@ class getPopulatedTrims(viewsets.ModelViewSet):
         """
         Filters for carmodel if requested
         """
-        carmodel_pk = self.request.data.get('carmodel_pk', None)
+        carmodel_pk = self.request.query_params.get('carmodel_pk', None)
         
         if carmodel_pk is not None:
             preSet = CarTrim.objects.filter(carmodel_pk=carmodel_pk)
@@ -100,7 +103,7 @@ class CarModelViewSet(viewsets.ModelViewSet):
         Filters for carmake if requested
         """
         
-        carmake_pk = self.request.data.get('carmake_pk', None)
+        carmake_pk = self.request.query_params.get('carmake_pk', None)
         if carmake_pk is not None:
             queryset = CarModel.objects.filter(carmake_pk=carmake_pk)
         else:
@@ -117,8 +120,8 @@ class CarTrimViewSet(viewsets.ModelViewSet):
         Filters for carmake or carmodel if requested
         """
         
-        carmake_pk = self.request.data.get('carmake_pk', None)
-        carmodel_pk = self.request.data.get('carmodel_pk', None)
+        carmake_pk = self.request.query_params.get('carmake_pk', None)
+        carmodel_pk = self.request.query_params.get('carmodel_pk', None)
         
         if carmodel_pk is not None:
             queryset = CarTrim.objects.filter(carmodel_pk=carmodel_pk)
@@ -135,12 +138,12 @@ class CarResultViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """
-        Filters for carmake or carmodel if requested
+        Filters for carmake or carmodel or cartrim if requested
         """
         
-        carmake_pk = self.request.data.get('carmake_pk', None)
-        carmodel_pk = self.request.data.get('carmodel_pk', None)
-        cartrim_pk = self.request.data.get('cartrim_pk', None)
+        carmake_pk = self.request.query_params.get('carmake_pk', None)
+        carmodel_pk = self.request.query_params.get('carmodel_pk', None)
+        cartrim_pk = self.request.query_params.get('cartrim_pk', None)
         
 
         if cartrim_pk is not None:
@@ -153,3 +156,28 @@ class CarResultViewSet(viewsets.ModelViewSet):
             queryset = CarResult.objects.all()
         return queryset
 
+@api_view(['GET'])
+def getBestBuy(request):
+    carmake_pk = request.query_params.get('carmake_pk', None)
+    carmodel_pk = request.query_params.get('carmodel_pk', None)
+    cartrim_pk = request.query_params.get('cartrim_pk', None)
+    if cartrim_pk is not None:
+        queryset = CarResult.objects.filter(cartrim_pk=cartrim_pk)
+    elif carmodel_pk is not None:
+        queryset = CarResult.objects.filter(carmodel_pk=carmodel_pk)
+    elif carmake_pk is not None:
+        queryset = CarResult.objects.filter(carmake_pk=carmake_pk)
+    else:
+        return Response({"year":[], "miles":[]})
+
+    # Makes into json request form
+    serializer = CarResultSerializer(queryset, many=True)
+    resultsData = serializer.data
+
+    res = Response(resultsData)
+
+    # sends to processer to find optimal buy
+    process = processResults(res.data)
+    bestBuy = process.run_analysis()
+
+    return Response({"year":bestBuy[0], "miles":bestBuy[1]})

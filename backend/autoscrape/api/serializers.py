@@ -2,7 +2,7 @@ from rest_framework import serializers
 from autoscrape.models import CarMake, CarModel, CarTrim, CarResult
 
 class CarMakeSerializer(serializers.ModelSerializer):
-    models = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # models = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     # trims = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
@@ -10,7 +10,7 @@ class CarMakeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CarModelSerializer(serializers.ModelSerializer):
-    trims = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # trims = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = CarModel

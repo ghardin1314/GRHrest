@@ -1,0 +1,5 @@
+export const GET_AUTO_RESULTS = 'GET_AUTO_RESULTS';
+export const GET_AUTO_BESTBUY = 'GET_AUTO_BESTBUY';
+export const GET_AUTO_MAKES = 'GET_AUTO_MAKES'
+export const GET_AUTO_MODELS = 'GET_AUTO_MODELS'
+export const GET_AUTO_TRIMS = 'GET_AUTO_TRIMS'

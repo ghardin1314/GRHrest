@@ -11,7 +11,8 @@ from .views import (
     getPopulatedModels,
     getPopulatedTrims,
     getModelHasTrims,
-    getMakeHasModels
+    getMakeHasModels,
+    getBestBuy
 )
 
 router = DefaultRouter()
@@ -25,7 +26,8 @@ router.register('populatedTrims', getPopulatedTrims, basename='PopulatedTrims')
 
 urlpatterns = [
     path('modelHasTrims/', getModelHasTrims),
-    path('makeHadModels/', getMakeHasModels)
+    path('makeHasModels/', getMakeHasModels),
+    path('getBestBuy/', getBestBuy),
 ]
 
 urlpatterns += router.urls
