@@ -1,30 +1,60 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import DeckGL from '@deck.gl/react';
-import {OrbitView} from '@deck.gl/core';
-// import PlotLayer from './plot-layer';
-import {scaleLinear} from 'd3-scale';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-const INITIAL_VIEW_STATE = {
-    target: [0.5, 0.5, 0.5],
-    orbitAxis: 'Y',
-    rotationX: 30,
-    rotationOrbit: -30,
-    /* global window */
-    zoom: typeof window !== `undefined` ? Math.log2(window.innerHeight / 3) : 1 // fit 3x3x3 box in current viewport
-  };
+import * as actions from "../../store/actions/AutoActions";
+import Plot from "react-plotly.js";
 
-function getScale({min, max}) {
-    return scaleLinear()
-      .domain([min, max])
-      .range([0, 1]);
-  }
+export default function AutoGraph() {
+  const state = useSelector((state) => state);
 
+  //   const dispatch = useDispatch();
 
-export default function AutoGraph(data){
-return(
-    <div>
-         
+  var MyTitle = state.MakeName+' '+state.ModelName+' '+state.TrimName+' Results'
+
+  return (
+    <div style={{ height: "80vh", width: "90vw", justifyContent:'center' }}>
+      <Plot
+        data={[
+          {
+            type: "scatter3d",
+            x: state.unpackedData.x,
+            y: state.unpackedData.y,
+            z: state.unpackedData.z,
+            mode: "markers",
+            visible: state.showScatter,
+          },
+          {
+            type: "scatter3d",
+            x: [state.BestBuy["year"]],
+            y: [state.BestBuy["miles"]],
+            z: [state.BestBuy["price"]],
+            mode: "markers",
+            visible: state.showBest,
+            marker: {
+              color: "rgb(1, 0, 0)",
+              size: 15,
+              symbol: "star",
+            },
+          },
+          {
+            type: "surface",
+            x: state.Surface.x,
+            y: state.Surface.y,
+            z: state.Surface.z,
+            visible: state.showSurface,
+            showscale: false,
+          },
+        ]}
+        useResizeHandler
+        style={{ width: "100%", height: "100%" }}
+        layout={{
+          aspectmode: "manual",
+          title: MyTitle,
+          scene: {
+            aspectratio: { x: 3, y: 3, z: 1 },
+          },
+        }}
+      />
     </div>
-)
+  );
 }

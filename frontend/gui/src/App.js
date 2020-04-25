@@ -14,8 +14,9 @@ class App extends React.Component {
       <Router>
         <CustomLayout>
             <BaseRouter />
-            <LoadingBackdrop/>
+            
         </CustomLayout>
+        <LoadingBackdrop/>
       </Router>
     </div>
   );

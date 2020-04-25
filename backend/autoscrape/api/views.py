@@ -148,13 +148,13 @@ class CarResultViewSet(viewsets.ModelViewSet):
         print(carmake_pk,carmodel_pk,cartrim_pk)
 
         if cartrim_pk is not None and cartrim_pk != '':
-            queryset = CarResult.objects.filter(cartrim_pk=cartrim_pk)
+            queryset = CarResult.objects.filter(cartrim_pk=cartrim_pk).order_by('-price').order_by('miles').order_by('-year')
         elif carmodel_pk is not None and carmodel_pk != '':
-            queryset = CarResult.objects.filter(carmodel_pk=carmodel_pk)
+            queryset = CarResult.objects.filter(carmodel_pk=carmodel_pk).order_by('-price').order_by('miles').order_by('-year')
         elif carmake_pk is not None and carmake_pk != '':
-            queryset = CarResult.objects.filter(carmake_pk=carmake_pk)
+            queryset = CarResult.objects.filter(carmake_pk=carmake_pk).order_by('-price').order_by('miles').order_by('-year')
         else:
-            queryset = CarResult.objects.all()
+            queryset = CarResult.objects.all().order_by('year')
         return queryset
 
 @api_view(['GET'])
@@ -162,14 +162,14 @@ def getBestBuy(request):
     carmake_pk = request.query_params.get('carmake_pk', None)
     carmodel_pk = request.query_params.get('carmodel_pk', None)
     cartrim_pk = request.query_params.get('cartrim_pk', None)
-    if cartrim_pk is not None:
+    if cartrim_pk is not None and cartrim_pk != '':
         queryset = CarResult.objects.filter(cartrim_pk=cartrim_pk)
-    elif carmodel_pk is not None:
+    elif carmodel_pk is not None and carmodel_pk != '':
         queryset = CarResult.objects.filter(carmodel_pk=carmodel_pk)
-    elif carmake_pk is not None:
+    elif carmake_pk is not None and carmake_pk != '':
         queryset = CarResult.objects.filter(carmake_pk=carmake_pk)
     else:
-        return Response({"year":[], "miles":[]})
+        return Response([[],{'bestBuy': {"year":[], "miles":[], "price":[]}, 'surface':{ 'x': [], 'y': [], 'z': []}}])
 
     # Makes into json request form
     serializer = CarResultSerializer(queryset, many=True)
@@ -179,6 +179,6 @@ def getBestBuy(request):
 
     # sends to processer to find optimal buy
     process = processResults(res.data)
-    bestBuy = process.run_analysis()
+    results = process.run_analysis()
 
-    return Response({"year":bestBuy[0], "miles":bestBuy[1]})
+    return Response([{'results': resultsData}, {'bestBuy': {"year":results[0][0], "miles":results[0][1], "price":results[0][2]}}, {'surface': {'x': results[1][0], 'y': results[1][1], 'z': results[1][2]}}])

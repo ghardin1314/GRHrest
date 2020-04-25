@@ -1,6 +1,6 @@
 import React from "react";
 
-import Container from "@material-ui/core/Container";
+
 
 import CustomTopbar from "../components/Topbar";
 
@@ -9,7 +9,7 @@ export default class ButtonAppBar extends React.Component {
     return (
       <React.Fragment>
         <CustomTopbar />
-        <Container>{this.props.children}</Container>
+  {this.props.children}
       </React.Fragment>
     );
   }

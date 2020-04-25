@@ -6,3 +6,4 @@ export const GET_AUTO_TRIMS = "GET_AUTO_TRIMS";
 export const START_REQUEST = "START_REQUEST";
 export const REQUEST_SUCCESS = "REQUEST_SUCCESS";
 export const UPDATE_FIELD = 'UPDATE_FIELD';
+export const UNPACK_DATA = 'UNPACK_DATA';

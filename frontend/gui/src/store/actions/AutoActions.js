@@ -22,7 +22,7 @@ export const getAutoMakes = (params) => {
       .get("http://localhost:8000/api/autoscrape/populatedMakes/")
       .then((res) => {
         const data = res.data;
-        console.log(data);
+        // console.log(data);
         dispatch(requestSuccess("Makes", data));
       });
   };
@@ -39,6 +39,7 @@ export const getAutoModels = (params) => {
         if (data.length != 0) {
           dispatch(updateSelection("ModelDeactive", false));
           dispatch(updateSelection("TrimDeactive", true));
+          dispatch(updateSelection("SubmitDeactive", true));
         } else {
           dispatch(updateSelection("SubmitDeactive", false));
           dispatch(updateSelection("ModelDeactive", true));
@@ -57,10 +58,11 @@ export const getAutoTrims = (params) => {
         dispatch(requestSuccess("Trims", data));
         if (data.length != 0) {
           dispatch(updateSelection("TrimDeactive", false));
+          dispatch(updateSelection("SubmitDeactive", true));
         } else {
           dispatch(updateSelection("TrimDeactive", true));
+          dispatch(updateSelection("SubmitDeactive", false));
         }
-        dispatch(updateSelection("SubmitDeactive", false));
       });
   };
 };
@@ -72,8 +74,10 @@ export const getAutoResults = (params) => {
       .get("http://localhost:8000/api/autoscrape/results/", params)
       .then((res) => {
         const data = res.data;
-        console.log(data);
-        dispatch(requestSuccess("Results", data));
+        dispatch(requestSuccess("Results", data[0]['results']));
+        dispatch(requestSuccess("BestBuy", data[1]['bestBuy']));
+        dispatch(requestSuccess("Surface", data[2]['surface']));
+        dispatch(unpackData())
       });
   };
 };
@@ -85,3 +89,9 @@ export const updateSelection = (field, selection) => {
     selection: selection,
   };
 };
+
+export const unpackData = () => {
+  return {
+    type: actionTypes.UNPACK_DATA,
+  };
+}

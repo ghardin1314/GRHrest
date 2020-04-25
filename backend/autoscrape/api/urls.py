@@ -19,7 +19,7 @@ router = DefaultRouter()
 router.register('makes', CarMakeViewSet, basename='Makes')
 router.register('models', CarModelViewSet, basename='Models')
 router.register('trims', CarTrimViewSet, basename='Trims')
-router.register('results', CarResultViewSet, basename='Results')
+router.register('rawresults', CarResultViewSet, basename='Results')
 router.register('populatedMakes', getPopulatedMakes, basename='PopulatedMakes')
 router.register('populatedModels', getPopulatedModels, basename='PopulatedModels')
 router.register('populatedTrims', getPopulatedTrims, basename='PopulatedTrims')
@@ -27,7 +27,8 @@ router.register('populatedTrims', getPopulatedTrims, basename='PopulatedTrims')
 urlpatterns = [
     path('modelHasTrims/', getModelHasTrims),
     path('makeHasModels/', getMakeHasModels),
-    path('getBestBuy/', getBestBuy),
+    # path('getBestBuy/', getBestBuy),
+    path('results/', getBestBuy),
 ]
 
 urlpatterns += router.urls

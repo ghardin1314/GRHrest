@@ -31,8 +31,9 @@ class processResults():
         self._get_verticies()
         self._get_bestbuy()
 
-        return self.BestBuy
-
+        # return [self.BestBuy, [self.XX, self.YY, self.ZZ], [self.Xsurface, self.Ysurface, self.Zsurface]]
+        return [self.BestBuy, [self.Xsurface, self.Ysurface, self.Zsurface]]
+    
     def _populateValue(self):
         'extracts just value data from api call'
 
@@ -91,6 +92,8 @@ class processResults():
         """
         mn = np.min(self.data, axis=0)
         mx = np.max(self.data, axis=0)
+
+
         
         X, Y = np.meshgrid(np.linspace(mn[0], mx[0], 100), np.linspace(mn[1],
                            mx[1], 100))
@@ -113,6 +116,19 @@ class processResults():
         Z = np.dot(np.c_[np.ones(XX.shape), XX, YY, XX*YY, XX**2, YY**2, XX**2*YY,
                          YY**2*XX, XX**3, YY**3], C).reshape(X.shape)
 
+        ZZ = Z.flatten()
+
+        #saving for API export
+        # self.XX = XX
+        # self.YY = YY
+        # self.ZZ = ZZ
+
+        self.Xsurface = np.linspace(mn[0], mx[0], 100)
+        self.Ysurface = np.linspace(mn[1], mx[1], 100)
+        self.Zsurface = Z
+
+
+
         H = self._mean_curvature(Z)
 
         H_flat = [item for sublist in H for item in sublist]
@@ -123,11 +139,13 @@ class processResults():
             index = np.where(H == value)
             xmin = int(X[index[0], index[1]])
             ymin = int(Y[index[0], index[1]])
+            zmin = int(Z[index[0], index[1]])
 
             if self._inside(self.verticies, xmin, ymin):
                 xmin = round(xmin)
                 ymin = round(ymin/1000)*1000
-                self.BestBuy = [xmin, ymin]
+                zmin = round(zmin/1000)*1000
+                self.BestBuy = [xmin, ymin, zmin]
                 break
 
     def _mean_curvature(self, Z):
@@ -183,11 +201,13 @@ if __name__ == '__main__':
       }
 
 
-    res = requests.get("http://localhost:8000/api/autoscrape/results/", params = payload)
+    res = requests.get("http://localhost:8000/api/autoscrape/rawresults/", params = payload)
     results = res.json()
 
     test = processResults(results)
     
-    ans = test.run_analysis()
+    results = test.run_analysis()
+
+    t = {'bestBuy': {"year":results[0][0], "miles":results[0][1], "price":results[0][2]}, 'surface': {'x': results[1][0], 'y': results[1][1], 'z': results[1][2]}}
 
     pass
