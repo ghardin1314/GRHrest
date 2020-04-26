@@ -7,7 +7,7 @@ import Container from "@material-ui/core/Container";
 
 import AutoscrapeSelect from "../components/autoscrape/AutoscrapeSelect";
 import AutoGraph from "../components/autoscrape/AutoGraph";
-
+import AutoBody from "../components/autoscrape/AutoBody";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -25,7 +25,7 @@ class Autoscrape extends React.Component {
     return <div>
         <AutoGraph />
         <AutoscrapeSelect/>
-        {/* Placeholder for explination */}
+        <AutoBody/>
     </div>;
   }
 }

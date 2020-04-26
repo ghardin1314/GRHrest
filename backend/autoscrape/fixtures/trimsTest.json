@@ -1,0 +1,1 @@
+[{"model": "autoscrape.CarTrim", "pk": 1, "fields": {"carmake_pk": 1, "carmodel_pk": 1, "cartrim_name": "Type-S", "cartrim_value": "ACUCL|Type-S"}}, {"model": "autoscrape.CarTrim", "pk": 2, "fields": {"carmake_pk": 1, "carmodel_pk": 1, "cartrim_name": "Type-S 2", "cartrim_value": "ACUCL|Type-S 2"}}]

@@ -30,6 +30,8 @@ const initialState = {
   showScatter: true,
   showBest: true,
   showSurface: true,
+  activeStep: 0,
+  visSteps: [],
 };
 
 const startRequest = (state, action) => {

@@ -9,31 +9,46 @@ export default function AutoGraph() {
 
   //   const dispatch = useDispatch();
 
-  var MyTitle = state.MakeName+' '+state.ModelName+' '+state.TrimName+' Results'
+  var MyTitle =
+    state.MakeName + " " + state.ModelName + " " + state.TrimName + " Results";
+
+  var MyBest =
+    "Best: " +
+    state.BestBuy.year +
+    " with " +
+    state.BestBuy.miles +
+    " miles at $" +
+    state.BestBuy.price;
 
   return (
-    <div style={{ height: "80vh", width: "90vw", justifyContent:'center' }}>
+    <div style={{ height: "80vh", width: "90vw", justifyContent: "center" }}>
       <Plot
         data={[
           {
             type: "scatter3d",
+            name: "Listings",
             x: state.unpackedData.x,
             y: state.unpackedData.y,
             z: state.unpackedData.z,
             mode: "markers",
             visible: state.showScatter,
+            marker: {
+              color: "rgb(0,0,255)",
+              size: 5,
+            },
           },
           {
             type: "scatter3d",
+            name: "Best",
             x: [state.BestBuy["year"]],
             y: [state.BestBuy["miles"]],
             z: [state.BestBuy["price"]],
             mode: "markers",
             visible: state.showBest,
             marker: {
-              color: "rgb(1, 0, 0)",
+              color: "rgb(255, 0, 0)",
               size: 15,
-              symbol: "star",
+              symbol: "diamond",
             },
           },
           {
@@ -52,6 +67,16 @@ export default function AutoGraph() {
           title: MyTitle,
           scene: {
             aspectratio: { x: 3, y: 3, z: 1 },
+            xaxis: {
+              title: "Year",
+              dtick: 1,
+            },
+            yaxis: {
+              title: "Miles",
+            },
+            zaxis: {
+              title: "Price",
+            },
           },
         }}
       />

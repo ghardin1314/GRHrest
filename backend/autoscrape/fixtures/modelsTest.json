@@ -1,0 +1,1 @@
+[{"model": "autoscrape.CarModel", "pk": 1, "fields": {"carmake_pk": 1, "carmodel_name": "CL", "carmodel_value": "ACUCL"}}, {"model": "autoscrape.CarModel", "pk": 2, "fields": {"carmake_pk": 1, "carmodel_name": "ILX", "carmodel_value": "ILX"}}]

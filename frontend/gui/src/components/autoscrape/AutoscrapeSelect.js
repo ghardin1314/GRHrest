@@ -95,6 +95,9 @@ export default function AutoscrapeSelect() {
         updateSelection("ModelDeactive", true);
         updateSelection("ModelName", '');
         updateSelection("TrimName", '');
+        updateSelection("BestBuy", {year: [], miles: [], price: []});
+        updateSelection("Surface", {x: [], y: [], z: []});
+        updateSelection("unpackedData", []);
     }
   };
 
@@ -112,6 +115,9 @@ export default function AutoscrapeSelect() {
         updateSelection("TrimSelection", "");
         updateSelection("TrimName", '');
         populateTrims(modelID);
+        updateSelection("BestBuy", {year: [], miles: [], price: []});
+        updateSelection("Surface", {x: [], y: [], z: []});
+        updateSelection("unpackedData", []);
     }
   };
 
@@ -126,6 +132,9 @@ export default function AutoscrapeSelect() {
         updateSelection("TrimSelection", trimID);
         updateSelection("TrimName", TrimName);
         updateSelection("SubmitDeactive", false);
+        updateSelection("BestBuy", {year: [], miles: [], price: []});
+        updateSelection("Surface", {x: [], y: [], z: []});
+        updateSelection("unpackedData", []);
     }
   };
 
@@ -202,7 +211,7 @@ export default function AutoscrapeSelect() {
         <FormGroup>
           <FormControlLabel
             control={<Checkbox checked={state.showScatter} onChange={handleChange} name="showScatter" />}
-            label="Scatter"
+            label="Listings"
           />
           <FormControlLabel
             control={<Checkbox checked={state.showBest} onChange={handleChange} name="showBest" />}
