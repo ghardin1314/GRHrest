@@ -11,6 +11,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 import Typography from "@material-ui/core/Typography";
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,12 +100,13 @@ export default function AutoBody() {
             Let there be data!
           </Typography>
           <Typography variant="body1" gutterBottom align="left">
-            In the begining there was nothing. Then, Python said "Let there be data!", and there was
-            data. Well... it wasn't quite that easy. All of the data was
-            webscraped from a friendly neighboorhood car listing site (where one
-            might "trade autos"). Gathering the data came in two parts; finding
-            all of the makes, models, and trims with used listings available,
-            and then saving the data for the inidvidual listings.
+            In the begining there was nothing. Then, Python said "Let there be
+            data!", and there was data. Well... it wasn't quite that easy. All
+            of the data was webscraped from a friendly neighboorhood car listing
+            site (where one might "trade autos"). Gathering the data came in two
+            parts; finding all of the makes, models, and trims with used
+            listings available, and then saving the data for the inidvidual
+            listings.
           </Typography>
           <Typography variant="h6" gutterBottom align="left">
             What are my options?
@@ -122,11 +124,37 @@ export default function AutoBody() {
             to add some pauses. You win some...
           </Typography>
           <Typography variant="h6" gutterBottom align="left">
-
+            Cars! Cars! Cars!
           </Typography>
           <Typography variant="body1" gutterBottom align="left">
-
+            Next step, aquire the goods. Now that I have all the options to pick
+            from, I looped through every make, model, trim combination and
+            pulled the listing results. Turns out, you can only go 1000 listings
+            deep into the database of the site. To get a fully representative
+            data pool, I sorted the cars by distance to hopefully get an equal
+            amount of older and newer cars. I also through in a splash of
+            threading to speed up the process becasue I ain't got time to burn
+            like that.
           </Typography>
+          <Typography variant="body1" gutterBottom align="left">
+            Suprisingly it actually took much longer to write the results to the
+            database than to scape them from the site and more suprisingly I
+            never hit the API limit during this. Even with the limit of results,
+            this was a lot (A LOT!) of data. Somewhere in the neighborhood of ~3
+            million lisitings. When the script finally finished without any
+            error and I realized I effectively pulled all the publicly available
+            data from this site I was like:
+          </Typography>
+          <div style={{ justifyContent: "center", alignItems: "center" }}>
+            <iframe
+              src="https://giphy.com/embed/RLWwOuPbqObupogOLB"
+              width="480"
+              height="412"
+              frameBorder="0"
+              class="giphy-embed"
+              allowFullScreen
+            ></iframe>
+          </div>
           <div style={{ height: "500px" }}></div>
           <VisibilitySensor onChange={(isVisible) => setStep(isVisible, 1)}>
             <Typography variant="h4" gutterBottom>
@@ -142,6 +170,11 @@ export default function AutoBody() {
               Github:
             </Typography>
           </VisibilitySensor>
+          <Typography variant="h6">
+              <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/populate_car_types.py">
+                Getting make, model, and trim data:
+                </Link>
+            </Typography>
           <Typography variant="body1" gutterBottom>
             Github Link
           </Typography>
