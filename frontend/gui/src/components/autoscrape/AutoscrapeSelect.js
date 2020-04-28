@@ -1,22 +1,17 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
-// import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import * as actions from "../../store/actions/AutoActions";
-import Grid from '@material-ui/core/Grid';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormLabel from '@material-ui/core/FormLabel';
-// import NativeSelect from "@material-ui/core/NativeSelect";
-// import FormGroup from "@material-ui/core/FormGroup";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {

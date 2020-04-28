@@ -1,24 +1,13 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-import * as actions from "../../store/actions/AutoActions";
+import React from "react";
+import { useSelector } from "react-redux";
 import Plot from "react-plotly.js";
 
 export default function AutoGraph() {
   const state = useSelector((state) => state);
 
-  //   const dispatch = useDispatch();
-
   var MyTitle =
     state.MakeName + " " + state.ModelName + " " + state.TrimName + " Results";
 
-  var MyBest =
-    "Best: " +
-    state.BestBuy.year +
-    " with " +
-    state.BestBuy.miles +
-    " miles at $" +
-    state.BestBuy.price;
 
   return (
     <div style={{ height: "80vh", width: "90vw", justifyContent: "center" }}>

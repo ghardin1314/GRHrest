@@ -11,7 +11,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 import Typography from "@material-ui/core/Typography";
-import Link from '@material-ui/core/Link';
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   stepper: {
     background: "white",
-    position: "-webkit-sticky",
+    // position: "-webkit-sticky",
     position: "sticky",
     top: 40,
     bottom: 20,
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AutoBody() {
   const classes = useStyles();
-  const steps = ["Explination", "API", "Github", "More"];
+  const steps = ["Explination", "API", "Github"];
   const activeStep = useSelector((state) => state.activeStep);
   const BestBuy = useSelector((state) => state.BestBuy);
 
@@ -142,20 +142,28 @@ export default function AutoBody() {
             never hit the API limit during this. Even with the limit of results,
             this was a lot (A LOT!) of data. Somewhere in the neighborhood of ~3
             million lisitings. When the script finally finished without any
-            error and I realized I effectively pulled all the publicly available
-            data from this site I was like:
+            errors and I realized I effectively pulled all the publicly
+            available data from this site I was like:
           </Typography>
-          <div style={{ justifyContent: "center", alignItems: "center" }}>
+          <div style={{ align: "center" }}>
             <iframe
               src="https://giphy.com/embed/RLWwOuPbqObupogOLB"
               width="480"
               height="412"
               frameBorder="0"
-              class="giphy-embed"
-              allowFullScreen
+              style={{ position: "center" }}
+              title='excited'
             ></iframe>
           </div>
-          <div style={{ height: "500px" }}></div>
+          <Typography variant="h6" gutterBottom align="left">
+            Crunch the Numbers...
+          </Typography>
+          <Typography variant="body1" gutterBottom align="left">
+            Now to do something with all this data. I wanted to see if there was
+            an absolute optimal car to buy from a depreciation standpoint.
+            Theoretically, this would be where the rate of depreciation is
+            changing the least. I.E. where the acceleration of depreciation is the lowest
+          </Typography>
           <VisibilitySensor onChange={(isVisible) => setStep(isVisible, 1)}>
             <Typography variant="h4" gutterBottom>
               API:
@@ -171,12 +179,19 @@ export default function AutoBody() {
             </Typography>
           </VisibilitySensor>
           <Typography variant="h6">
-              <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/populate_car_types.py">
-                Getting make, model, and trim data:
-                </Link>
-            </Typography>
-          <Typography variant="body1" gutterBottom>
-            Github Link
+            <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/populate_car_types.py">
+              Getting make, model, and trim data
+            </Link>
+          </Typography>
+          <Typography variant="h6">
+            <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/pull_car_data.py">
+              Getting data for every listing
+            </Link>
+          </Typography>
+          <Typography variant="h6">
+            <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/api/process_results.py">
+              Data Analyzing
+            </Link>
           </Typography>
           <div style={{ height: "500px" }}></div>
         </Grid>

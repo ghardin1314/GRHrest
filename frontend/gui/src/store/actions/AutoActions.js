@@ -36,7 +36,7 @@ export const getAutoModels = (params) => {
       .then((res) => {
         const data = res.data;
         dispatch(requestSuccess("Models", data));
-        if (data.length != 0) {
+        if (data.length !== 0) {
           dispatch(updateSelection("ModelDeactive", false));
           dispatch(updateSelection("TrimDeactive", true));
           dispatch(updateSelection("SubmitDeactive", true));
@@ -56,7 +56,7 @@ export const getAutoTrims = (params) => {
       .then((res) => {
         const data = res.data;
         dispatch(requestSuccess("Trims", data));
-        if (data.length != 0) {
+        if (data.length !== 0) {
           dispatch(updateSelection("TrimDeactive", false));
           dispatch(updateSelection("SubmitDeactive", true));
         } else {
