@@ -110,6 +110,7 @@ class processResults():
 
         A = np.c_[A1, A2, A3, A4, A5, A6, A7]
 
+        test = self.data[:, 2]
 
         C, _, _, _ = scipy.linalg.lstsq(A, self.data[:, 2])
     

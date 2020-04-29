@@ -203,7 +203,7 @@ export default function AutoscrapeSelect() {
         </FormControl>
         <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend">Show: </FormLabel>
-        <FormGroup>
+        <FormGroup row>
           <FormControlLabel
             control={<Checkbox checked={state.showScatter} onChange={handleChange} name="showScatter" />}
             label="Listings"

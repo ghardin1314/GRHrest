@@ -2,8 +2,19 @@ import React from "react";
 import VisibilitySensor from "react-visibility-sensor";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/actions/AutoActions";
+import { DynamicIFrame } from "../DynamicIframe";
+
+import {
+  MakeBlockAPI,
+  ModelBlockAPI,
+  TrimBlockAPI,
+  ResultsBlockAPI,
+} from "./apiDocs";
+
+import { MathFieldComponent } from "react-mathlive";
 
 import { makeStyles } from "@material-ui/core/styles";
+
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Stepper from "@material-ui/core/Stepper";
@@ -37,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AutoBody() {
   const classes = useStyles();
-  const steps = ["Explination", "API", "Github"];
+  const steps = ["Explination", "API", "Github", "Feedback & Connect"];
   const activeStep = useSelector((state) => state.activeStep);
   const BestBuy = useSelector((state) => state.BestBuy);
 
@@ -69,7 +80,8 @@ export default function AutoBody() {
           </Typography>
         )}
       </div>
-      <Grid container spacing={2}>
+      <br />
+      <Grid container spacing={2} justify="center">
         <Hidden mdDown>
           <Grid item xs={2}>
             <Stepper
@@ -90,7 +102,7 @@ export default function AutoBody() {
             </Stepper>
           </Grid>
         </Hidden>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={10} md={8} justify="center">
           <VisibilitySensor onChange={(isVisible) => setStep(isVisible, 0)}>
             <Typography variant="h4" gutterBottom>
               Explination:
@@ -145,16 +157,9 @@ export default function AutoBody() {
             errors and I realized I effectively pulled all the publicly
             available data from this site I was like:
           </Typography>
-          <div style={{ align: "center" }}>
-            <iframe
-              src="https://giphy.com/embed/RLWwOuPbqObupogOLB"
-              width="480"
-              height="412"
-              frameBorder="0"
-              style={{ position: "center" }}
-              title='excited'
-            ></iframe>
-          </div>
+          <Grid container justify="center">
+            <DynamicIFrame src="https://giphy.com/embed/RLWwOuPbqObupogOLB" />
+          </Grid>
           <Typography variant="h6" gutterBottom align="left">
             Crunch the Numbers...
           </Typography>
@@ -162,17 +167,58 @@ export default function AutoBody() {
             Now to do something with all this data. I wanted to see if there was
             an absolute optimal car to buy from a depreciation standpoint.
             Theoretically, this would be where the rate of depreciation is
-            changing the least. I.E. where the acceleration of depreciation is the lowest
+            changing the least, i.e. where the acceleration of depreciation is
+            the lowest. To do this I needed to get reaquainted with my (not so)
+            good friend linear algebra. Since I needed to find the second
+            derivative of the price, I knew I would need a cubic surface. This
+            meant solving for the following constants using least squares:
           </Typography>
+          <Typography variant="body1" gutterBottom align="center">
+            <MathFieldComponent
+              mathFieldConfig={{ readOnly: true }}
+              latex="min\biggm{|}\begin{bmatrix} z \end{bmatrix} - \begin{bmatrix*} 1 & x & y & x^2 & y^2 & xy & x^2y & xy^2 & x^3 & y^3 \end{bmatrix*}\begin{bmatrix} a_1 \\ a_2 \\ a_3 \\a_4 \\a_5 \\a_6 \\a_7 \\a_8 \\a_9 \\a_{10} \end{bmatrix}\biggm{|}"
+            />
+            <MathFieldComponent
+              mathFieldConfig={{ readOnly: true }}
+              latex="x = year, y = miles, z = year, a_i=const"
+            />
+          </Typography>
+          <Typography variant="body1" gutterBottom align="left">
+            Now I could find the theoretical price at any year and milage using:
+          </Typography>
+          <Typography variant="body1" gutterBottom align="center">
+            <MathFieldComponent
+              mathFieldConfig={{ readOnly: true }}
+              latex="Price = a_1 + a_2x + a_3y + a_4x^2 + a_5y^2 + a_6xy + a_7x^2y + a_8xy^2 + a_9x^3 + a_{10}y^3"
+            />
+          </Typography>
+          <Typography variant="body1" gutterBottom align="left">
+            which I evaluated for a 100x100 grid over the domain of min and max
+            observed year and miles, resulting in the surface you see above.
+          </Typography>
+          <br />
+          <br />
           <VisibilitySensor onChange={(isVisible) => setStep(isVisible, 1)}>
             <Typography variant="h4" gutterBottom>
               API:
             </Typography>
           </VisibilitySensor>
-          <Typography variant="body1" gutterBottom>
-            Api Doc...
+          <Typography variant="subtitle1" gutterBottom>
+            Get primary keys for every make
           </Typography>
-          <div style={{ height: "500px" }}></div>
+          <MakeBlockAPI />
+          <Typography variant="subtitle1" gutterBottom>
+            Get primary keys for every model
+          </Typography>
+          <ModelBlockAPI />
+          <Typography variant="subtitle1" gutterBottom>
+            Get primary keys for every trim
+          </Typography>
+          <TrimBlockAPI />
+          <Typography variant="subtitle1" gutterBottom>
+            Get results used to populate graph
+          </Typography>
+          <ResultsBlockAPI />
           <VisibilitySensor onChange={(isVisible) => setStep(isVisible, 2)}>
             <Typography variant="h4" gutterBottom>
               Github:
@@ -195,6 +241,9 @@ export default function AutoBody() {
           </Typography>
           <div style={{ height: "500px" }}></div>
         </Grid>
+        <Hidden mdDown>
+          <Grid item xs={2}></Grid>
+        </Hidden>
       </Grid>
     </div>
   );
