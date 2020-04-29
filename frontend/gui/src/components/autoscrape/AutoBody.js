@@ -58,23 +58,34 @@ export default function AutoBody() {
 
   const dispatch = useDispatch();
 
+  function backStep(isVisible, step) {
+    if (!isVisible) {
+        console.log("off bottom")
+        updateSelection("activeStep", step-1);
+      }}
+
+
   function setStep(isVisible, step) {
     if (isVisible) {
-      if (step < activeStep) {
         updateSelection("activeStep", step);
       }
-    } else {
-      if (step === activeStep) {
-        updateSelection("activeStep", step + 1);
-      }
-    }
+
+    // if (isVisible) {
+    //   if (step < activeStep) {
+    //     updateSelection("activeStep", step);
+    //   }
+    // } else {
+    //   if (step === activeStep) {
+    //     updateSelection("activeStep", step + 1);
+    //   }
+    // }
   }
 
   return (
     <div>
       <div style={{ justifyContent: "center", alignItems: "center" }}>
         {BestBuy.year.length !== 0 && (
-          <Typography variant="h3" gutterBottom align="center">
+          <Typography variant="h4" gutterBottom align="center">
             Optimal Car: {BestBuy.year} with {BestBuy.miles} miles at $
             {BestBuy.price}
           </Typography>
@@ -84,7 +95,7 @@ export default function AutoBody() {
       <Grid container spacing={2} justify="center">
         <Hidden mdDown>
           <Grid item xs={2}>
-            <Stepper
+            <Stepper id="stepper"
               activeStep={activeStep}
               orientation="vertical"
               className={classes.stepper}
@@ -103,7 +114,7 @@ export default function AutoBody() {
           </Grid>
         </Hidden>
         <Grid item xs={10} md={8} justify="center">
-          <VisibilitySensor onChange={(isVisible) => setStep(isVisible, 0)}>
+          <VisibilitySensor offset={{top: 200, bottom: 200}} onChange={(isVisible) => setStep(isVisible, 0)}>
             <Typography variant="h4" gutterBottom>
               Explination:
             </Typography>
@@ -198,10 +209,12 @@ export default function AutoBody() {
           </Typography>
           <br />
           <br />
-          <VisibilitySensor onChange={(isVisible) => setStep(isVisible, 1)}>
+          <VisibilitySensor offset={{top: 200, bottom: 200}} onChange={(isVisible) => setStep(isVisible, 1)}>
+            <VisibilitySensor offset={{bottom: 200}} partialVisibility='bottom' onChange={(isVisible) => backStep(isVisible, 1)}>
             <Typography variant="h4" gutterBottom>
               API:
             </Typography>
+          </VisibilitySensor>
           </VisibilitySensor>
           <Typography variant="subtitle1" gutterBottom>
             Get primary keys for every make
@@ -219,10 +232,12 @@ export default function AutoBody() {
             Get results used to populate graph
           </Typography>
           <ResultsBlockAPI />
-          <VisibilitySensor onChange={(isVisible) => setStep(isVisible, 2)}>
-            <Typography variant="h4" gutterBottom>
+          <VisibilitySensor offset={{top: 200, bottom: 200}} onChange={(isVisible) => setStep(isVisible, 2)}>
+          <VisibilitySensor offset={{bottom: 200}} partialVisibility='bottom' onChange={(isVisible) => backStep(isVisible, 2)}>
+            <Typography  variant="h4" gutterBottom>
               Github:
             </Typography>
+          </VisibilitySensor>
           </VisibilitySensor>
           <Typography variant="h6">
             <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/populate_car_types.py">

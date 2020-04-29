@@ -1,16 +1,18 @@
 import React from "react";
 import { useSelector } from "react-redux";
+
 import Plot from "react-plotly.js";
+
+import Grid from "@material-ui/core/Grid";
 
 export default function AutoGraph() {
   const state = useSelector((state) => state);
 
   var MyTitle =
-    state.MakeName + " " + state.ModelName + " " + state.TrimName + " Results";
-
+    state.MakeName + " " + ((state.ModelName==="") ? "": state.ModelName+" ") + ((state.TrimName==="") ? "": state.TrimName+" ") + "Results";
 
   return (
-    <div style={{ height: "80vh", width: "90vw", justifyContent: "center" }}>
+    <Grid container item xs={12} style={{ height: "80vh" }}>
       <Plot
         data={[
           {
@@ -52,6 +54,12 @@ export default function AutoGraph() {
         useResizeHandler
         style={{ width: "100%", height: "100%" }}
         layout={{
+          autosize: true,
+          margin: {
+            l:10,
+            r:10,
+            b: 10
+          },
           aspectmode: "manual",
           title: MyTitle,
           scene: {
@@ -67,8 +75,13 @@ export default function AutoGraph() {
               title: "Price",
             },
           },
+          legend: {
+            x: 1,
+            xanchor: "right",
+            y: 1,
+          },
         }}
       />
-    </div>
+    </Grid>
   );
 }

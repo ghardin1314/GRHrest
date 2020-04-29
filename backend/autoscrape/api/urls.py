@@ -3,9 +3,9 @@ from django.urls import path
 
 
 from .views import (
-    CarMakeViewSet, 
-    CarModelViewSet, 
-    CarTrimViewSet, 
+    CarMakeViewSet,
+    CarModelViewSet,
+    CarTrimViewSet,
     CarResultViewSet,
     getPopulatedMakes,
     getPopulatedModels,
@@ -21,7 +21,8 @@ router.register('models', CarModelViewSet, basename='Models')
 router.register('trims', CarTrimViewSet, basename='Trims')
 router.register('rawresults', CarResultViewSet, basename='Results')
 router.register('populatedMakes', getPopulatedMakes, basename='PopulatedMakes')
-router.register('populatedModels', getPopulatedModels, basename='PopulatedModels')
+router.register('populatedModels', getPopulatedModels,
+                basename='PopulatedModels')
 router.register('populatedTrims', getPopulatedTrims, basename='PopulatedTrims')
 
 urlpatterns = [

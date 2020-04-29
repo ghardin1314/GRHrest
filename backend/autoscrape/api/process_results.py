@@ -7,6 +7,7 @@ import math
 import scipy.linalg
 from scipy.spatial import ConvexHull
 
+
 class processResults():
     def __init__(self, listings):
         self.value = []
@@ -33,7 +34,7 @@ class processResults():
 
         # return [self.BestBuy, [self.XX, self.YY, self.ZZ], [self.Xsurface, self.Ysurface, self.Zsurface]]
         return [self.BestBuy, [self.Xsurface, self.Ysurface, self.Zsurface]]
-    
+
     def _populateValue(self):
         'extracts just value data from api call'
 
@@ -49,10 +50,10 @@ class processResults():
         Gets the verticies of the convex hull that incapsulates Price-Miles 
         space of results. Appends verticies to self.verticies
         """
-        
+
         years = list(set(self.data[:, 0]))
         years.sort()
-    
+
         dataRange = []
         for year in years:
             temp = np.where(self.data[:, 0] == year)
@@ -64,18 +65,18 @@ class processResults():
             minPrice = min(self.data[minI:maxI+1, 2])
             ranges = [year, maxMiles, minMiles, maxPrice, minPrice]
             dataRange.append(ranges)
-    
+
         dataRange = pd.DataFrame(dataRange, columns=['Year',
                                                      'MaxMiles', 'MinMiles',
                                                      'MaxPrice', 'MinPrice'])
         points = []
-    
+
         for i, year in enumerate(dataRange['Year']):
             points.append([year, dataRange['MaxMiles'][i]])
             points.append([year, dataRange['MinMiles'][i]])
-    
+
         points = np.array(points)
-    
+
         hull = ConvexHull(points)
         vertex_ind = hull.vertices
         vertex_ind = np.append(vertex_ind, vertex_ind[0])
@@ -92,14 +93,11 @@ class processResults():
         """
         mn = np.min(self.data, axis=0)
         mx = np.max(self.data, axis=0)
-
-
-        
         X, Y = np.meshgrid(np.linspace(mn[0], mx[0], 100), np.linspace(mn[1],
-                           mx[1], 100))
+                                                                       mx[1], 100))
         XX = X.flatten()
         YY = Y.flatten()
-    
+
         A1 = np.ones(self.data.shape[0])
         A2 = self.data[:, :2]
         A3 = np.prod(self.data[:, :2], axis=1)
@@ -113,13 +111,13 @@ class processResults():
         test = self.data[:, 2]
 
         C, _, _, _ = scipy.linalg.lstsq(A, self.data[:, 2])
-    
+
         Z = np.dot(np.c_[np.ones(XX.shape), XX, YY, XX*YY, XX**2, YY**2, XX**2*YY,
                          YY**2*XX, XX**3, YY**3], C).reshape(X.shape)
 
         ZZ = Z.flatten()
 
-        #saving for API export
+        # saving for API export
         # self.XX = XX
         # self.YY = YY
         # self.ZZ = ZZ
@@ -127,7 +125,6 @@ class processResults():
         self.Xsurface = np.linspace(mn[0], mx[0], 100)
         self.Ysurface = np.linspace(mn[1], mx[1], 100)
         self.Zsurface = Z
-
 
 
         H = self._mean_curvature(Z)
@@ -156,12 +153,12 @@ class processResults():
         Zy, Zx = np.gradient(Z)
         Zxy, Zxx = np.gradient(Zx)
         Zyy, _ = np.gradient(Zy)
-    
+
         H = (Zx**2 + 1)*Zyy - 2*Zx*Zy*Zxy + (Zy**2 + 1)*Zxx
         H = -H/(2*(Zx**2 + Zy**2 + 1)**(1.5))
-    
+
         return H
-    
+
     def _inside(self, verticies, x, y):
         """
         Tests if point (x,y) is located in a shape that has verticies
@@ -169,13 +166,13 @@ class processResults():
         inside = True
         for i in range(1, len(verticies)):
             res = self._cross(verticies[i-1], verticies[i], (x, y))
-    
+
             if res < 0:
                 inside = False
                 break
-    
+
         return inside
-    
+
     def _cross(self, o, a, b):
         """ 2D cross product of OA and OB vectors,
          i.e. z-component of their 3D cross product.
@@ -187,28 +184,30 @@ class processResults():
          negative for clockwise turn, and zero
          if the points are colinear.
         """
-    
+
         res = (a[0] - o[0]) * (b[1] - o[1]) -\
               (a[1] - o[1]) * (b[0] - o[0])
-    
+
         return res
 
+
 if __name__ == '__main__':
-        
+
     payload = {
         "carmake_pk": '',
         "carmodel_pk": '',
         "cartrim_pk": 115,
-      }
+    }
 
-
-    res = requests.get("http://localhost:8000/api/autoscrape/rawresults/", params = payload)
+    res = requests.get(
+        "http://localhost:8000/api/autoscrape/rawresults/", params=payload)
     results = res.json()
 
     test = processResults(results)
-    
+
     results = test.run_analysis()
 
-    t = {'bestBuy': {"year":results[0][0], "miles":results[0][1], "price":results[0][2]}, 'surface': {'x': results[1][0], 'y': results[1][1], 'z': results[1][2]}}
+    t = {'bestBuy': {"year": results[0][0], "miles": results[0][1], "price": results[0][2]}, 'surface': {
+        'x': results[1][0], 'y': results[1][1], 'z': results[1][2]}}
 
     pass

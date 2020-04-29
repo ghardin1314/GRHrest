@@ -1,3 +1,4 @@
+from autoscrape.models import CarMake, CarModel, CarTrim
 import requests
 import threading
 import concurrent.futures
@@ -11,9 +12,6 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 django.setup()
 
-
-from autoscrape.models import CarMake, CarModel, CarTrim
-
 class search_res:
     def __init__(self):
         self.value = []
@@ -22,19 +20,19 @@ class search_res:
         self.verticies = []
         self.BestBuy = []
         self._lock = threading.Lock()
-        
-    def run_search(self, make_code, model_code, trim_code = []):
-        
+
+    def run_search(self, make_code, model_code, trim_code=[]):
+
         self._get_results(make_code, model_code, trim_code)
 
         self._get_data()
 
-        print('{} {} has {} listings'.format(trim_code, model_code, len(self.value)))
+        print('{} {} has {} listings'.format(
+            trim_code, model_code, len(self.value)))
 
         pass
 
     def _get_results(self, make_code, model_code, trim_code):
-
         """
 
         Parameters
@@ -52,9 +50,9 @@ class search_res:
         page individually and then appends each listing to self.listings
 
         """
-        
+
         res = self._get_page(make_code=make_code, model_code=model_code,
-                            trim_code=trim_code)
+                             trim_code=trim_code)
 
         try:
             numResults = res['totalResultCount']
@@ -69,11 +67,11 @@ class search_res:
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
             for i in range(1, pages):
                 executor.submit(self._get_page(make_code=make_code,
-                                              model_code=model_code,
-                                              trim_code=trim_code, page=i))
+                                               model_code=model_code,
+                                               trim_code=trim_code, page=i))
 
     def _get_page(self, make_code=[], model_code=[], trim_code=[],
-                 page=0):
+                  page=0):
         """
 
         Parameters
@@ -112,7 +110,8 @@ class search_res:
                    'numRecords': '100',
                    'firstRecord': firstRecord,
                    }
-        headers= {'User-Agent': """Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"""}
+        headers = {
+            'User-Agent': """Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"""}
         response = session.get(url, headers=headers, params=payload)
         results = response.json()
         self._pull_listings(results)
@@ -193,22 +192,22 @@ def populate_data():
                             car.carmake_value,
                             Amodel.carmodel_value,
                             trim.cartrim_value
-                            )
+                        )
 
                         for point in res.value:
 
                             listpk += 1
 
                             entry = {
-                            'model': 'autoscrape.CarResult',
-                            'pk': listpk,
-                            'fields': {
-                                'carmake_pk': car.pk,
-                                'carmodel_pk': Amodel.pk,
-                                'cartrim_pk': trim.pk,
-                                'year': point[0],
-                                'miles': point[1],
-                                'price': point[2],
+                                'model': 'autoscrape.CarResult',
+                                'pk': listpk,
+                                'fields': {
+                                    'carmake_pk': car.pk,
+                                    'carmodel_pk': Amodel.pk,
+                                    'cartrim_pk': trim.pk,
+                                    'year': point[0],
+                                    'miles': point[1],
+                                    'price': point[2],
                                 }
                             }
 
@@ -218,29 +217,27 @@ def populate_data():
                     res = search_res()
 
                     res.run_search(
-                            car.carmake_value,
-                            Amodel.carmodel_value
-                            )
-                    
+                        car.carmake_value,
+                        Amodel.carmodel_value
+                    )
+
                     for point in res.value:
 
                         listpk += 1
 
                         entry = {
-                        'model': 'autoscrape.CarResult',
-                        'pk': listpk,
-                        'fields': {
-                            'carmake_pk': car.pk,
-                            'carmodel_pk': Amodel.pk,
-                            'year': point[0],
-                            'miles': point[1],
-                            'price': point[2],
+                            'model': 'autoscrape.CarResult',
+                            'pk': listpk,
+                            'fields': {
+                                'carmake_pk': car.pk,
+                                'carmodel_pk': Amodel.pk,
+                                'year': point[0],
+                                'miles': point[1],
+                                'price': point[2],
                             }
                         }
 
                         listingsJSON.append(entry)
-
-
 
     mypath = os.getcwd()
 
@@ -248,8 +245,6 @@ def populate_data():
         json.dump(listingsJSON, file)
 
     pass
-
-
 
 
 if __name__ == '__main__':

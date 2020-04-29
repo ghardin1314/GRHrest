@@ -8,7 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-import { CodeBlock, dracula } from "react-code-blocks";
+import { CodeBlock } from "react-code-blocks";
 
 function BlockAPI({ title, codestring }) {
   return (

@@ -22,6 +22,7 @@ def getMakeHasModels(request):
     else:
         return Response({"response": False})
 
+
 @api_view(['GET'])
 def getModelHasTrims(request):
     carmodel_pk = request.query_params.get('carmodel_pk', None)
@@ -32,8 +33,9 @@ def getModelHasTrims(request):
     else:
         return Response({"response": False})
 
+
 class getPopulatedMakes(viewsets.ModelViewSet):
- 
+
     serializer_class = CarMakeSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -42,11 +44,12 @@ class getPopulatedMakes(viewsets.ModelViewSet):
         preSet = CarMake.objects.all()
 
         queryset = [make for make in preSet if make.has_someresult()]
-        
+
         return queryset
 
+
 class getPopulatedModels(viewsets.ModelViewSet):
- 
+
     serializer_class = CarModelSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -54,7 +57,7 @@ class getPopulatedModels(viewsets.ModelViewSet):
         """
         Filters for carmake if requested
         """
-        
+
         carmake_pk = self.request.query_params.get('carmake_pk', None)
         if carmake_pk is not None:
             preSet = CarModel.objects.filter(carmake_pk=carmake_pk)
@@ -62,11 +65,12 @@ class getPopulatedModels(viewsets.ModelViewSet):
             preSet = []
 
         queryset = [model for model in preSet if model.has_someresult()]
-        
+
         return queryset
 
+
 class getPopulatedTrims(viewsets.ModelViewSet):
- 
+
     serializer_class = CarTrimSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -75,14 +79,13 @@ class getPopulatedTrims(viewsets.ModelViewSet):
         Filters for carmodel if requested
         """
         carmodel_pk = self.request.query_params.get('carmodel_pk', None)
-        
+
         if carmodel_pk is not None:
             preSet = CarTrim.objects.filter(carmodel_pk=carmodel_pk)
         else:
             preSet = []
 
         queryset = [trim for trim in preSet if trim.has_someresult()]
-        
 
         return queryset
 
@@ -93,6 +96,7 @@ class CarMakeViewSet(viewsets.ModelViewSet):
     queryset = CarMake.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+
 class CarModelViewSet(viewsets.ModelViewSet):
 
     serializer_class = CarModelSerializer
@@ -102,13 +106,14 @@ class CarModelViewSet(viewsets.ModelViewSet):
         """
         Filters for carmake if requested
         """
-        
+
         carmake_pk = self.request.query_params.get('carmake_pk', None)
         if carmake_pk is not None:
             queryset = CarModel.objects.filter(carmake_pk=carmake_pk)
         else:
             queryset = CarModel.objects.all()
         return queryset
+
 
 class CarTrimViewSet(viewsets.ModelViewSet):
 
@@ -119,10 +124,10 @@ class CarTrimViewSet(viewsets.ModelViewSet):
         """
         Filters for carmake or carmodel if requested
         """
-        
+
         carmake_pk = self.request.query_params.get('carmake_pk', None)
         carmodel_pk = self.request.query_params.get('carmodel_pk', None)
-        
+
         if carmodel_pk is not None:
             queryset = CarTrim.objects.filter(carmodel_pk=carmodel_pk)
         elif carmake_pk is not None:
@@ -130,6 +135,7 @@ class CarTrimViewSet(viewsets.ModelViewSet):
         else:
             queryset = CarTrim.objects.all()
         return queryset
+
 
 class CarResultViewSet(viewsets.ModelViewSet):
 
@@ -140,22 +146,26 @@ class CarResultViewSet(viewsets.ModelViewSet):
         """
         Filters for carmake or carmodel or cartrim if requested
         """
-        
+
         carmake_pk = self.request.query_params.get('carmake_pk', None)
         carmodel_pk = self.request.query_params.get('carmodel_pk', None)
         cartrim_pk = self.request.query_params.get('cartrim_pk', None)
-        
-        print(carmake_pk,carmodel_pk,cartrim_pk)
+
+        print(carmake_pk, carmodel_pk, cartrim_pk)
 
         if cartrim_pk is not None and cartrim_pk != '':
-            queryset = CarResult.objects.filter(cartrim_pk=cartrim_pk).order_by('-price').order_by('miles').order_by('-year')
+            queryset = CarResult.objects.filter(cartrim_pk=cartrim_pk).order_by(
+                '-price').order_by('miles').order_by('-year')
         elif carmodel_pk is not None and carmodel_pk != '':
-            queryset = CarResult.objects.filter(carmodel_pk=carmodel_pk).order_by('-price').order_by('miles').order_by('-year')
+            queryset = CarResult.objects.filter(carmodel_pk=carmodel_pk).order_by(
+                '-price').order_by('miles').order_by('-year')
         elif carmake_pk is not None and carmake_pk != '':
-            queryset = CarResult.objects.filter(carmake_pk=carmake_pk).order_by('-price').order_by('miles').order_by('-year')
+            queryset = CarResult.objects.filter(carmake_pk=carmake_pk).order_by(
+                '-price').order_by('miles').order_by('-year')
         else:
             queryset = CarResult.objects.all().order_by('year')
         return queryset
+
 
 @api_view(['GET'])
 def getBestBuy(request):
@@ -169,7 +179,20 @@ def getBestBuy(request):
     elif carmake_pk is not None and carmake_pk != '':
         queryset = CarResult.objects.filter(carmake_pk=carmake_pk)
     else:
-        return Response([[],{'bestBuy': {"year":[], "miles":[], "price":[]}, 'surface':{ 'x': [], 'y': [], 'z': []}}])
+        return Response([
+            [],
+            {'results': []},
+            {'bestBuy': {
+                "year": [],
+                "miles":[],
+                "price":[]
+            }},
+            {'surface': {
+                'x': [],
+                'y': [],
+                'z': []
+            }}
+        ])
 
     # Makes into json request form
     serializer = CarResultSerializer(queryset, many=True)
@@ -181,4 +204,16 @@ def getBestBuy(request):
     process = processResults(res.data)
     results = process.run_analysis()
 
-    return Response([{'results': resultsData}, {'bestBuy': {"year":results[0][0], "miles":results[0][1], "price":results[0][2]}}, {'surface': {'x': results[1][0], 'y': results[1][1], 'z': results[1][2]}}])
+    return Response([
+        {'results': resultsData},
+        {'bestBuy': {
+            "year": results[0][0],
+            "miles":results[0][1],
+            "price":results[0][2]
+        }},
+        {'surface': {
+            'x': results[1][0],
+            'y': results[1][1],
+            'z': results[1][2]
+        }}
+    ])

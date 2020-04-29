@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import AutoscrapeSelect from "../components/autoscrape/AutoscrapeSelect";
 import AutoGraph from "../components/autoscrape/AutoGraph";
 import AutoBody from "../components/autoscrape/AutoBody";
+import AutoForm from "../components/autoscrape/AutoForm"
 
 
 class Autoscrape extends React.Component {
@@ -11,7 +11,7 @@ class Autoscrape extends React.Component {
   render() {
     return <div>
         <AutoGraph />
-        <AutoscrapeSelect/>
+        <AutoForm/>
         <AutoBody/>
     </div>;
   }

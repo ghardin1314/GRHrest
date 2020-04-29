@@ -6,11 +6,11 @@ const initialState = {
   Models: [],
   Trims: [],
   MakeSelection: "",
-  MakeName: '',
+  MakeName: "",
   ModelSelection: "",
-  ModelName: '',
+  ModelName: "",
   TrimSelection: "",
-  TrimName: '',
+  TrimName: "",
   ModelDeactive: true,
   TrimDeactive: true,
   SubmitDeactive: true,
@@ -20,12 +20,12 @@ const initialState = {
   BestBuy: {
     year: [],
     miles: [],
-    price: []
+    price: [],
   },
   Surface: {
     x: [],
     y: [],
-    z: []
+    z: [],
   },
   showScatter: true,
   showBest: true,

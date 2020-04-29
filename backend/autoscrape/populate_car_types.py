@@ -16,6 +16,7 @@ Sleep in the get_trims method is to avoid api limiting. Takes a long time to run
 run python manage.py loaddata xxxxx.json for each file to update database
 """
 
+
 class result_obj:
     def __init__(self):
         self.value = []
@@ -25,11 +26,12 @@ class result_obj:
         url_base = 'https://www.autotrader.com'
         path = '/rest/searchform/advanced/update'
         url = url_base + path
-        headers= {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
+        headers = {
+            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
         payload = {'maxMileage': '0',
-                       'searchRadius': '0',
-                       'zip': '90250'}
-        response = requests.get(url, headers=headers, params = payload)
+                   'searchRadius': '0',
+                   'zip': '90250'}
+        response = requests.get(url, headers=headers, params=payload)
         try:
             results = response.json()
             makes = results['searchFormFields']['make']['searchOptions'][0]['options']
@@ -40,17 +42,17 @@ class result_obj:
             print('error on makes')
             exit()
 
-
     def get_models(self, make, make_index):
         url_base = 'https://www.autotrader.com'
         path = '/rest/searchform/advanced/update'
         url = url_base + path
-        headers= {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
+        headers = {
+            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
         payload = {'makeCodeList': make,
-                       'maxMileage': '0',
-                       'searchRadius': '0',
-                       'zip': '90250'}
-        response = requests.get(url, headers=headers, params = payload)
+                   'maxMileage': '0',
+                   'searchRadius': '0',
+                   'zip': '90250'}
+        response = requests.get(url, headers=headers, params=payload)
         try:
             results = response.json()
             models = results['searchFormFields']['model']['searchOptions'][0]['options']
@@ -66,16 +68,17 @@ class result_obj:
         url_base = 'https://www.autotrader.com'
         path = '/rest/searchform/advanced/update'
         url = url_base + path
-        headers= {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
+        headers = {
+            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
         payload = {'makeCodeList': make,
-                       'modelCodeList': model,
-                       'maxMileage': '0',
-                       'searchRadius': '0',
-                       'zip': '90250'}
+                   'modelCodeList': model,
+                   'maxMileage': '0',
+                   'searchRadius': '0',
+                   'zip': '90250'}
 
         time.sleep(10)
-                    
-        response = requests.get(url, headers=headers, params = payload)
+
+        response = requests.get(url, headers=headers, params=payload)
         results = response.json()
         trims = results['searchFormFields']['trim']['searchOptions'][0]['options']
         del trims[0]
@@ -89,6 +92,7 @@ class result_obj:
                 print(f"error on {model['value']}")
             print(model['trims'])
             self.value[make_index]['models'][model_index] = model
+
 
 def pull_data(results):
 
@@ -108,7 +112,14 @@ def pull_data(results):
 
             for model_index, model in enumerate(models):
 
-                executor.submit(results.get_trims, make['value'], model['value'], make_index, model_index)
+                executor.submit(
+                    results.get_trims, 
+                    make['value'], 
+                    model['value'], 
+                    make_index, 
+                    model_index
+                    )
+
 
 def populate_json(results):
 
@@ -123,7 +134,6 @@ def populate_json(results):
 
     for make in makes:
 
-    
         makepk += 1
 
         entry = {
@@ -159,19 +169,19 @@ def populate_json(results):
                     trimpk += 1
 
                     entry = {
-                    'model': 'autoscrape.CarTrim',
-                    'pk': trimpk,
-                    'fields': {
-                        'carmake_pk': makepk,
-                        'carmodel_pk': modelpk,
-                        'cartrim_name': trim.get('name'),
-                        'cartrim_value': trim.get('value')
+                        'model': 'autoscrape.CarTrim',
+                        'pk': trimpk,
+                        'fields': {
+                            'carmake_pk': makepk,
+                            'carmodel_pk': modelpk,
+                            'cartrim_name': trim.get('name'),
+                            'cartrim_value': trim.get('value')
                         }
                     }
 
                     trimJSON.append(entry)
             except:
-                print('No trims for {} model'.format(model.get('name')))        
+                print('No trims for {} model'.format(model.get('name')))
 
     mypath = os.getcwd()
 
@@ -184,7 +194,7 @@ def populate_json(results):
     with open(mypath + r'/fixtures/trims.json', 'w+') as file:
         json.dump(trimJSON, file)
 
-    
+
 if __name__ == '__main__':
 
     results = result_obj()

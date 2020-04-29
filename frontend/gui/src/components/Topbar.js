@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 0.025,
   },
+  offset: theme.mixins.toolbar,
 }));
 
 function CustomTopbar() {
@@ -48,7 +49,8 @@ function CustomTopbar() {
     setOpen(false);
   };
   return (
-    <AppBar style={{ margin: 0 }} position="sticky">
+    <React.Fragment>
+    <AppBar style={{ margin: 0 }} position="fixed">
       <Toolbar>
         <Typography variant="h6" align="left" className={classes.title}>
           GRH Analytics
@@ -106,6 +108,8 @@ function CustomTopbar() {
         </Popper>
       </Toolbar>
     </AppBar>
+    <div className={classes.offset} />
+    </React.Fragment>
   );
 }
 
