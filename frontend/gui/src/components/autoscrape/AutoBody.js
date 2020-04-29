@@ -60,15 +60,15 @@ export default function AutoBody() {
 
   function backStep(isVisible, step) {
     if (!isVisible) {
-        console.log("off bottom")
-        updateSelection("activeStep", step-1);
-      }}
-
+      console.log("off bottom");
+      updateSelection("activeStep", step - 1);
+    }
+  }
 
   function setStep(isVisible, step) {
     if (isVisible) {
-        updateSelection("activeStep", step);
-      }
+      updateSelection("activeStep", step);
+    }
 
     // if (isVisible) {
     //   if (step < activeStep) {
@@ -95,7 +95,8 @@ export default function AutoBody() {
       <Grid container spacing={2} justify="center">
         <Hidden mdDown>
           <Grid item xs={2}>
-            <Stepper id="stepper"
+            <Stepper
+              id="stepper"
               activeStep={activeStep}
               orientation="vertical"
               className={classes.stepper}
@@ -114,7 +115,10 @@ export default function AutoBody() {
           </Grid>
         </Hidden>
         <Grid item xs={10} md={8} justify="center">
-          <VisibilitySensor offset={{top: 200, bottom: 200}} onChange={(isVisible) => setStep(isVisible, 0)}>
+          <VisibilitySensor
+            offset={{ top: 200, bottom: 200 }}
+            onChange={(isVisible) => setStep(isVisible, 0)}
+          >
             <Typography variant="h4" gutterBottom>
               Explination:
             </Typography>
@@ -209,35 +213,55 @@ export default function AutoBody() {
           </Typography>
           <br />
           <br />
-          <VisibilitySensor offset={{top: 200, bottom: 200}} onChange={(isVisible) => setStep(isVisible, 1)}>
-            <VisibilitySensor offset={{bottom: 200}} partialVisibility='bottom' onChange={(isVisible) => backStep(isVisible, 1)}>
-            <Typography variant="h4" gutterBottom>
-              API:
-            </Typography>
-          </VisibilitySensor>
+          <VisibilitySensor
+            offset={{ top: 200, bottom: 200 }}
+            onChange={(isVisible) => setStep(isVisible, 1)}
+          >
+            <VisibilitySensor
+              offset={{ bottom: 200 }}
+              partialVisibility="bottom"
+              onChange={(isVisible) => backStep(isVisible, 1)}
+            >
+              <Typography variant="h4" gutterBottom>
+                API:
+              </Typography>
+            </VisibilitySensor>
           </VisibilitySensor>
           <Typography variant="subtitle1" gutterBottom>
-            Get primary keys for every make
+            Get primary keys, name, and query value for every make. Use id if
+            you only want one make.
           </Typography>
           <MakeBlockAPI />
           <Typography variant="subtitle1" gutterBottom>
-            Get primary keys for every model
+            Get primary keys, name, and query value for every model. Use id if
+            you only want one model. To get all models of a specific make, use
+            the make primary key.
           </Typography>
           <ModelBlockAPI />
           <Typography variant="subtitle1" gutterBottom>
-            Get primary keys for every trim
+          Get primary keys, name, and query value for every trim. Use id if
+            you only want one trim. To get all trim of a specific make or model, use
+            the make or model primary key.
           </Typography>
           <TrimBlockAPI />
           <Typography variant="subtitle1" gutterBottom>
-            Get results used to populate graph
+            Get results for specific make, model, or trim. 
+            One primary key must be passed to get results.
           </Typography>
           <ResultsBlockAPI />
-          <VisibilitySensor offset={{top: 200, bottom: 200}} onChange={(isVisible) => setStep(isVisible, 2)}>
-          <VisibilitySensor offset={{bottom: 200}} partialVisibility='bottom' onChange={(isVisible) => backStep(isVisible, 2)}>
-            <Typography  variant="h4" gutterBottom>
-              Github:
-            </Typography>
-          </VisibilitySensor>
+          <VisibilitySensor
+            offset={{ top: 200, bottom: 200 }}
+            onChange={(isVisible) => setStep(isVisible, 2)}
+          >
+            <VisibilitySensor
+              offset={{ bottom: 200 }}
+              partialVisibility="bottom"
+              onChange={(isVisible) => backStep(isVisible, 2)}
+            >
+              <Typography variant="h4" gutterBottom>
+                Github:
+              </Typography>
+            </VisibilitySensor>
           </VisibilitySensor>
           <Typography variant="h6">
             <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/populate_car_types.py">

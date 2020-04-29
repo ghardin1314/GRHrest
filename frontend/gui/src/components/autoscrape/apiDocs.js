@@ -170,11 +170,12 @@ export function ModelBlockAPI() {
           cartrim_pk: 18, //prioritized over carmodel_pk 
       }
       
-      *Some queries do not have results, this causes an error in the results processing
+      *Some queries do not have results, this currently causes an error in the results processing
       `;
     const Response = `
     [
         {
+            //Data for individual listings
             "results": [
                 {
                     "id": 2182,

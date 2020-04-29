@@ -9,7 +9,13 @@ export default function AutoGraph() {
   const state = useSelector((state) => state);
 
   var MyTitle =
-    state.MakeName + " " + ((state.ModelName==="") ? "": state.ModelName+" ") + ((state.TrimName==="") ? "": state.TrimName+" ") + "Results";
+    state.MakeName +
+    " " +
+    (state.ModelName === "" ? "" : state.ModelName + " ") +
+    (state.TrimName === "" ? "" : state.TrimName + " ") +
+    "Results";
+
+  var anno = state.Results.length === 0 ? "Please select make, model, trim and submit." : "";
 
   return (
     <Grid container item xs={12} style={{ height: "80vh" }}>
@@ -17,6 +23,7 @@ export default function AutoGraph() {
         data={[
           {
             type: "scatter3d",
+            visible: true,
             name: "Listings",
             x: state.unpackedData.x,
             y: state.unpackedData.y,
@@ -56,12 +63,19 @@ export default function AutoGraph() {
         layout={{
           autosize: true,
           margin: {
-            l:10,
-            r:10,
-            b: 10
+            l: 10,
+            r: 10,
+            b: 10,
           },
           aspectmode: "manual",
           title: MyTitle,
+          annotations: [
+            {
+              text: anno,
+              showarrow: false,
+              size: 20,
+            },
+          ],
           scene: {
             aspectratio: { x: 3, y: 3, z: 1 },
             xaxis: {
