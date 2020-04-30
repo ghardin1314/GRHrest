@@ -23,7 +23,6 @@ export default function AutoGraph() {
         data={[
           {
             type: "scatter3d",
-            visible: true,
             name: "Listings",
             x: state.unpackedData.x,
             y: state.unpackedData.y,
@@ -86,7 +85,9 @@ export default function AutoGraph() {
               title: "Miles",
             },
             zaxis: {
+              rangemode: "nonnegative",
               title: "Price",
+              
             },
           },
           legend: {

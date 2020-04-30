@@ -1,26 +1,15 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React from "react";
+import { useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
 import ProjectCard from "../components/ProjectCard";
 
-export default class Projects extends Component {
-  CardItems = [];
+export default function Projects () {
 
-  state = {
-    projects: [],
-  };
+  const projects = useSelector((state) => state.Projects);
 
-  componentDidMount() {
-    axios.get("http://localhost:8000/api/projects/").then((res) => {
-      console.log(res.data);
-      this.setState({ projects: res.data });
-    });
-  }
-
-  render() {
     return (
       <React.Fragment>
         <Container maxWidth="lg">
@@ -32,7 +21,7 @@ export default class Projects extends Component {
           <br />
           <Grid container spacing={2}>
             <Grid item md={4} sm={6} s={12}>
-              {this.state.projects.map((proj) => (
+              {projects.map((proj) => (
                 <ProjectCard data={proj} />
               ))}
             </Grid>
@@ -40,5 +29,4 @@ export default class Projects extends Component {
         </Container>
       </React.Fragment>
     );
-  }
 }

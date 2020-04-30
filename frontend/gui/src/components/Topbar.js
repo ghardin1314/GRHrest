@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+
+import * as actions from "../store/actions/AutoActions";
+
+import MobileMenu from "./MobileMenu";
 
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,11 +21,21 @@ import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-
+import Hidden from "@material-ui/core/Hidden";
 
 const useStyles = makeStyles((theme) => ({
+  grow: {
+    flex: 1,
+  },
   title: {
-    flexGrow: 0.025,
+    marginRight: theme.spacing(2),
+  },
+  menu: {
+    marginRight: 0,
+    align: "right",
+  },
+  button: {
+    marginLeft: theme.spacing(2),
   },
   offset: theme.mixins.toolbar,
 }));
@@ -28,14 +43,21 @@ const useStyles = makeStyles((theme) => ({
 function CustomTopbar() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [projects, setProjects] = React.useState(['']);
+  const projects = useSelector((state) => state.Projects);
   const anchorRef = React.useRef(null);
+
+  const updateSelection = (field, selection) => {
+    dispatch(actions.updateSelection(field, selection));
+  };
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/projects/").then((res) => {
-      setProjects(res.data);
+      updateSelection("Projects", res.data);
     });
-  }, [setProjects]);
+    // eslint-disable-next-line
+  }, []);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -50,65 +72,80 @@ function CustomTopbar() {
   };
   return (
     <React.Fragment>
-    <AppBar style={{ margin: 0 }} position="fixed">
-      <Toolbar>
-        <Typography variant="h6" align="left" className={classes.title}>
-          GRH Analytics
-        </Typography>
-        <Divider orientation="vertical" flexItem light />
-        <Button color="inherit" href="/" className={classes.title}>
-          About
-        </Button>
-        <ButtonGroup variant="text" color="inherit" ref={anchorRef}>
-          <Button href="/projects/" className={classes.title}>
-            projects
-          </Button>
-          <Button
-            // variant = 'outlined'
-            size="small"
-            aria-controls={open ? "split-button-menu" : undefined}
-            aria-expanded={open ? "true" : undefined}
-            aria-label="select merge strategy"
-            aria-haspopup="menu"
-            onClick={handleToggle}
-          >
-            <ArrowDropDownIcon />
-          </Button>
-        </ButtonGroup>
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom",
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList id="split-button-menu">
-                    {projects.map((project) => (
-                      <MenuItem key={project.tag}>
-                        <Link underline="none" href={`/projects/${project.tag}/`}>
-                          {project.tag}
-                        </Link>
-                      </MenuItem>
-                    ))}
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </Toolbar>
-    </AppBar>
-    <div className={classes.offset} />
+      <div className={classes.grow}>
+        <AppBar style={{ margin: 0 }} position="fixed">
+          <Toolbar>
+          <Link href="/" underline="none" color="inherit">
+            <Typography variant="h6" align="left" className={classes.title}>
+                GRH Analytics
+            </Typography>
+            </Link>
+            <Divider orientation="vertical" flexItem light />
+            <Hidden smDown>
+              <Button color="inherit" href="/" className={classes.button}>
+                About
+              </Button>
+              <ButtonGroup variant="text" color="inherit" ref={anchorRef}>
+                <Button href="/projects/" className={classes.button}>
+                  projects
+                </Button>
+                <Button
+                  // variant = 'outlined'
+                  size="small"
+                  aria-controls={open ? "split-button-menu" : undefined}
+                  aria-expanded={open ? "true" : undefined}
+                  aria-label="select merge strategy"
+                  aria-haspopup="menu"
+                  onClick={handleToggle}
+                >
+                  <ArrowDropDownIcon />
+                </Button>
+              </ButtonGroup>
+              <Popper
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === "bottom" ? "center top" : "center bottom",
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList id="split-button-menu">
+                          {projects.map((project) => (
+                            <MenuItem key={project.tag}>
+                              <Link
+                                underline="none"
+                                href={`/projects/${project.tag}/`}
+                              >
+                                {project.tag}
+                              </Link>
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
+            </Hidden>
+            <div className={classes.grow} />
+            <Hidden mdUp>
+              <div className={classes.menu}>
+                <MobileMenu />
+              </div>
+            </Hidden>
+          </Toolbar>
+        </AppBar>
+      </div>
+      <div className={classes.offset} />
     </React.Fragment>
   );
 }

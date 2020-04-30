@@ -4,12 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/actions/AutoActions";
 import { DynamicIFrame } from "../DynamicIframe";
 
-import {
-  MakeBlockAPI,
-  ModelBlockAPI,
-  TrimBlockAPI,
-  ResultsBlockAPI,
-} from "./apiDocs";
+import AutoStepper from "./AutoStepper";
+import AutoApiSection from "./AutoApiSection";
 
 import { MathFieldComponent } from "react-mathlive";
 
@@ -17,12 +13,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,22 +27,30 @@ const useStyles = makeStyles((theme) => ({
   resetContainer: {
     padding: theme.spacing(3),
   },
-  stepper: {
-    background: "white",
-    // position: "-webkit-sticky",
-    position: "sticky",
-    top: 40,
-    bottom: 20,
-    paddingTop: "40px",
-    paddingBottom: "40px",
-    zIndex: 5,
+  equation: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.55rem",
+    },
+  },
+  linkGrid: {
+    margin: theme.spacing(2),
+  },
+  linkCard: {
+    display: "flex",
+    padding: theme.spacing(1),
+    height: 100,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cardContain: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
 
 export default function AutoBody() {
   const classes = useStyles();
-  const steps = ["Explination", "API", "Github", "Feedback & Connect"];
-  const activeStep = useSelector((state) => state.activeStep);
+
   const BestBuy = useSelector((state) => state.BestBuy);
 
   const updateSelection = (field, selection) => {
@@ -69,51 +70,21 @@ export default function AutoBody() {
     if (isVisible) {
       updateSelection("activeStep", step);
     }
-
-    // if (isVisible) {
-    //   if (step < activeStep) {
-    //     updateSelection("activeStep", step);
-    //   }
-    // } else {
-    //   if (step === activeStep) {
-    //     updateSelection("activeStep", step + 1);
-    //   }
-    // }
   }
 
   return (
-    <div>
+    <div className={classes.root}>
       <div style={{ justifyContent: "center", alignItems: "center" }}>
         {BestBuy.year.length !== 0 && (
           <Typography variant="h4" gutterBottom align="center">
-            Optimal Car: {BestBuy.year} with {BestBuy.miles} miles at $
+            Optimal Car: {BestBuy.year} model with {BestBuy.miles} miles at $
             {BestBuy.price}
           </Typography>
         )}
       </div>
       <br />
       <Grid container spacing={2} justify="center">
-        <Hidden mdDown>
-          <Grid item xs={2}>
-            <Stepper
-              id="stepper"
-              activeStep={activeStep}
-              orientation="vertical"
-              className={classes.stepper}
-            >
-              {steps.map((label, index) => (
-                <Step key={label}>
-                  <StepLabel completed={false}>{label}</StepLabel>
-                  <StepContent>
-                    <div className={classes.actionsContainer}>
-                      <div></div>
-                    </div>
-                  </StepContent>
-                </Step>
-              ))}
-            </Stepper>
-          </Grid>
-        </Hidden>
+        <AutoStepper />
         <Grid item xs={10} md={8} justify="center">
           <VisibilitySensor
             offset={{ top: 200, bottom: 200 }}
@@ -144,6 +115,8 @@ export default function AutoBody() {
             through the drop down menu, but that wasn't the most reliable and
             took forever. So while I was messing around I found the internal API
             calls on while observing the network log on the browser console.
+          </Typography>
+          <Typography variant="body1" gutterBottom align="left">
             After a bit of fanagling I got the format correct and could directly
             call the API myself. Doing this still took too long so I went ahead
             and added some threading to the code to speed up the process, but
@@ -167,8 +140,8 @@ export default function AutoBody() {
             Suprisingly it actually took much longer to write the results to the
             database than to scape them from the site and more suprisingly I
             never hit the API limit during this. Even with the limit of results,
-            this was a lot (A LOT!) of data. Somewhere in the neighborhood of ~3
-            million lisitings. When the script finally finished without any
+            this was a lot (A LOT!) of data. Somewhere in the neighborhood of {' '}
+            <b>730544</b> lisitings (Last scraped 4/15/2020). When the script finally finished without any
             errors and I realized I effectively pulled all the publicly
             available data from this site I was like:
           </Typography>
@@ -182,26 +155,39 @@ export default function AutoBody() {
             Now to do something with all this data. I wanted to see if there was
             an absolute optimal car to buy from a depreciation standpoint.
             Theoretically, this would be where the rate of depreciation is
-            changing the least, i.e. where the acceleration of depreciation is
-            the lowest. To do this I needed to get reaquainted with my (not so)
-            good friend linear algebra. Since I needed to find the second
-            derivative of the price, I knew I would need a cubic surface. This
-            meant solving for the following constants using least squares:
+            changing the least, i.e. where the acceleration of price droping is
+            the lowest.
           </Typography>
-          <Typography variant="body1" gutterBottom align="center">
+          <Typography variant="body1" gutterBottom align="left">
+            To do this I needed to get reaquainted with my (not so) good friend
+            linear algebra. Since I needed to find the second derivative of the
+            price, I knew I would need a cubic surface. This meant solving for
+            the following constants using least squares:
+          </Typography>
+          <Typography
+            variant="body1"
+            gutterBottom
+            align="center"
+            className={classes.equation}
+          >
             <MathFieldComponent
               mathFieldConfig={{ readOnly: true }}
               latex="min\biggm{|}\begin{bmatrix} z \end{bmatrix} - \begin{bmatrix*} 1 & x & y & x^2 & y^2 & xy & x^2y & xy^2 & x^3 & y^3 \end{bmatrix*}\begin{bmatrix} a_1 \\ a_2 \\ a_3 \\a_4 \\a_5 \\a_6 \\a_7 \\a_8 \\a_9 \\a_{10} \end{bmatrix}\biggm{|}"
             />
             <MathFieldComponent
               mathFieldConfig={{ readOnly: true }}
-              latex="x = year, y = miles, z = year, a_i=const"
+              latex="x = year, \enspace y = miles, \enspace z = price, \enspace a_i=const"
             />
           </Typography>
           <Typography variant="body1" gutterBottom align="left">
-            Now I could find the theoretical price at any year and milage using:
+            Now I could find the best fit price at any year and milage using:
           </Typography>
-          <Typography variant="body1" gutterBottom align="center">
+          <Typography
+            variant="body1"
+            gutterBottom
+            align="center"
+            className={classes.equation}
+          >
             <MathFieldComponent
               mathFieldConfig={{ readOnly: true }}
               latex="Price = a_1 + a_2x + a_3y + a_4x^2 + a_5y^2 + a_6xy + a_7x^2y + a_8xy^2 + a_9x^3 + a_{10}y^3"
@@ -211,44 +197,93 @@ export default function AutoBody() {
             which I evaluated for a 100x100 grid over the domain of min and max
             observed year and miles, resulting in the surface you see above.
           </Typography>
-          <br />
-          <br />
-          <VisibilitySensor
-            offset={{ top: 200, bottom: 200 }}
-            onChange={(isVisible) => setStep(isVisible, 1)}
+          <Typography variant="body1" gutterBottom align="left">
+            Next up, curvature. Since I now had a matrix of prices it was easy
+            to take the discrete gradients in x, y, and xy. The{" "}
+            <Link href="https://en.wikipedia.org/wiki/Mean_curvature">
+              mean curvature
+            </Link>
+            , elegantly{" "}
+            <Link href="https://stackoverflow.com/a/15509751/13172332">
+              laid out here
+            </Link>
+            , can then be calculated at all points by:
+          </Typography>
+          <Typography
+            variant="body1"
+            gutterBottom
+            align="center"
+            className={classes.equation}
           >
-            <VisibilitySensor
-              offset={{ bottom: 200 }}
-              partialVisibility="bottom"
-              onChange={(isVisible) => backStep(isVisible, 1)}
-            >
-              <Typography variant="h4" gutterBottom>
-                API:
-              </Typography>
-            </VisibilitySensor>
-          </VisibilitySensor>
-          <Typography variant="subtitle1" gutterBottom>
-            Get primary keys, name, and query value for every make. Use id if
-            you only want one make.
+            <MathFieldComponent
+              mathFieldConfig={{ readOnly: true }}
+              latex="H = \frac
+              {-[(\nabla Z_x^2+1) \nabla^2 Z_{yy} -2\nabla Z_x \nabla Z_y \nabla^2 Z_{xy} + (\nabla Z_y^2+1) \nabla^2 Z_{xx}]}
+                {2(\nabla Z_x^2+\nabla Z_y^2+1)}"
+            />
+            <MathFieldComponent
+              mathFieldConfig={{ readOnly: true }}
+              latex="Z = 100 \times 100 \enspace matrix \enspace of \enspace price"
+            />
           </Typography>
-          <MakeBlockAPI />
-          <Typography variant="subtitle1" gutterBottom>
-            Get primary keys, name, and query value for every model. Use id if
-            you only want one model. To get all models of a specific make, use
-            the make primary key.
+          <Typography variant="body1" gutterBottom align="left">
+            then just find the minimum point in this matrix and, <b>Boom!</b>,
+            you have the point at which the rate of change depreciation is at
+            its lowest.
           </Typography>
-          <ModelBlockAPI />
-          <Typography variant="subtitle1" gutterBottom>
-          Get primary keys, name, and query value for every trim. Use id if
-            you only want one trim. To get all trim of a specific make or model, use
-            the make or model primary key.
+          <Typography variant="h6" gutterBottom align="left">
+            But Wait, There's More!
           </Typography>
-          <TrimBlockAPI />
-          <Typography variant="subtitle1" gutterBottom>
-            Get results for specific make, model, or trim. 
-            One primary key must be passed to get results.
+          <Typography variant="body1" gutterBottom align="left">
+            At this point, I thought I was done. Washed my hands of and off to
+            the next project. But then, in the shower (where all good revlations
+            come) I thought,
           </Typography>
-          <ResultsBlockAPI />
+          <Typography
+            variant="body1"
+            gutterBottom
+            align="center"
+            display="block"
+          >
+            <b>
+              What if the theoretical optimal point is doesn't physically
+              exsist?
+            </b>
+          </Typography>
+          <Typography variant="body1" gutterBottom align="left">
+            Sounded much more profound in my head...
+            <br />
+            <br />
+            Anyway this sent me down a rabbit hole of{" "}
+            <Link href="https://en.wikipedia.org/wiki/Convex_hull">
+              convex hulls
+            </Link>
+            , or finding the smallest envelope that covers the data set. Luckily
+            for me scipy has a library for that, so it took one line of code to
+            find the verticies of the year-miles convex hull. What has a little
+            more challenging was testing whether or not my minimum curvature
+            point was inside this envelope or not. I ended up looping through
+            the verticies clockwise and finding the cross product of the vector
+            to the optimal point and the vector to the next vertex. If this
+            cross product was positive for all verticies, the point was inside
+            the envelope. Lastly I looped through the minimum curvature points
+            until I found one inside my envelope. DONE!
+          </Typography>
+          <Grid container justify="center">
+            <img
+              style={{
+                alt: "convexHull",
+                width: 300,
+                alignItems: "center",
+                justifyContent: "center",
+                alignSelf: "center",
+              }}
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/ConvexHull.svg/1200px-ConvexHull.svg.png"
+            />
+          </Grid>
+          <br />
+          <br />
+          <AutoApiSection />
           <VisibilitySensor
             offset={{ top: 200, bottom: 200 }}
             onChange={(isVisible) => setStep(isVisible, 2)}
@@ -263,21 +298,49 @@ export default function AutoBody() {
               </Typography>
             </VisibilitySensor>
           </VisibilitySensor>
-          <Typography variant="h6">
-            <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/populate_car_types.py">
-              Getting make, model, and trim data
-            </Link>
-          </Typography>
-          <Typography variant="h6">
-            <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/pull_car_data.py">
-              Getting data for every listing
-            </Link>
-          </Typography>
-          <Typography variant="h6">
-            <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/api/process_results.py">
-              Data Analyzing
-            </Link>
-          </Typography>
+          <Grid container className={classes.cardContain}>
+            <Grid item xs={12} md={6} lg={3} className={classes.linkGrid}>
+              <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/populate_car_types.py">
+                <Paper className={classes.linkCard}>
+                  <Typography variant="h6" align="center">
+                    Getting make, model, and trim data
+                  </Typography>
+                </Paper>
+              </Link>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3} className={classes.linkGrid}>
+              <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/pull_car_data.py">
+                <Paper className={classes.linkCard}>
+                  <Typography variant="h6" align="center">
+                    Getting data for every listing
+                  </Typography>
+                </Paper>
+              </Link>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3} className={classes.linkGrid}>
+              <Link href="https://github.com/ghardin1314/GRHrest/blob/master/backend/autoscrape/api/process_results.py">
+                <Paper className={classes.linkCard}>
+                  <Typography variant="h6" align="center">
+                    Data Analyzing
+                  </Typography>
+                </Paper>
+              </Link>
+            </Grid>
+          </Grid>
+          <VisibilitySensor
+            offset={{ top: 200, bottom: 200 }}
+            onChange={(isVisible) => setStep(isVisible, 3)}
+          >
+            <VisibilitySensor
+              offset={{ bottom: 200 }}
+              partialVisibility="bottom"
+              onChange={(isVisible) => backStep(isVisible, 3)}
+            >
+              <Typography variant="h4" gutterBottom>
+                Feedback & Connect
+              </Typography>
+            </VisibilitySensor>
+          </VisibilitySensor>
           <div style={{ height: "500px" }}></div>
         </Grid>
         <Hidden mdDown>
