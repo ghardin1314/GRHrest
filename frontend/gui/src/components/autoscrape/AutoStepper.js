@@ -1,57 +1,73 @@
-import React from "react"
+import React from "react";
 
-import { useSelector} from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+
+import { useSelector } from "react-redux";
+import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
 
 
-const useStyles = makeStyles((theme) => ({
-
-    stepper: {
-      background: "white",
-      position: "sticky",
-      top: 40,
-      bottom: 20,
-      paddingTop: "50px",
-      paddingBottom: "40px",
-      zIndex: 5,
+const styles = (theme) => ({
+  stepper: {
+    background: theme.palette.background.default,
+    position: "sticky",
+    top: 40,
+    bottom: 20,
+    paddingTop: "50px",
+    paddingBottom: "40px",
+    zIndex: 5,
+    // color: '#ff6f5e'
+  },
+  root: {
+    "&$active": {
+      color: theme.palette.secondary.main,
     },
-    
-  }));
+    "&$completed": {
+      color: "red",
+    },
+  },
+  active: {},
+  completed: {},
+});
 
-export default function AutoStepper () {
+// export default function AutoStepper() {
+function AutoStepper(props) {
+  // const classes = useStyles();
+  const activeStep = useSelector((state) => state.activeStep);
 
-    const classes = useStyles();
-    const activeStep = useSelector((state) => state.activeStep);
+  const steps = ["Explination", "API", "Github", "Feedback & Connect"];
 
-    const steps = ["Explination", "API", "Github", "Feedback & Connect"];
-
-    return(
-        <Hidden mdDown>
-        <Grid item xs={2}>
-          <Stepper
-            id="stepper"
-            activeStep={activeStep}
-            orientation="vertical"
-            className={classes.stepper}
-          >
-            {steps.map((label, index) => (
-              <Step key={label}>
-                <StepLabel completed={false}>{label}</StepLabel>
-                <StepContent>
-                  <div className={classes.actionsContainer}>
-                    <div></div>
-                  </div>
-                </StepContent>
-              </Step>
-            ))}
-          </Stepper>
-        </Grid>
-      </Hidden>
-    )
+  return (
+    <Hidden mdDown>
+      <Grid item xs={2}>
+        <Stepper
+          id="stepper"
+          activeStep={activeStep}
+          orientation="vertical"
+          classes={{ root: props.classes.stepper }}
+        >
+          {steps.map((label, index) => (
+            <Step key={label}>
+              <StepLabel
+                completed={false}
+                StepIconProps={{
+                  classes: {
+                    root: props.classes.root,
+                    active: props.classes.active,
+                  },
+                }}
+              >
+                {label}
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </Grid>
+    </Hidden>
+  );
 }
+
+export default withStyles(styles)(AutoStepper);

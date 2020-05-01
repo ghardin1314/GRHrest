@@ -8,10 +8,10 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormLabel from '@material-ui/core/FormLabel';
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormLabel from "@material-ui/core/FormLabel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,9 +23,12 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 120,
     width: "sm",
   },
-  selectEmpty: {
-    // marginTop: theme.spacing(2),
+  selectColor: {
+    color: "f7f8f3",
   },
+  button:{
+    background: theme.palette.background.paper,
+  }
 }));
 
 export function MakeSelect() {
@@ -34,7 +37,6 @@ export function MakeSelect() {
 
   const dispatch = useDispatch();
 
-  
   useEffect(() => {
     dispatch(actions.getAutoMakes());
     // eslint-disable-next-line
@@ -80,6 +82,7 @@ export function MakeSelect() {
     <FormControl className={classes.formControl}>
       <InputLabel htmlFor="car-makes">Make</InputLabel>
       <Select
+        classes={{ root: classes.selectColor }}
         native
         value={state.MakeSelection}
         onChange={handleChooseMake}
@@ -88,9 +91,17 @@ export function MakeSelect() {
           id: "car-makes",
         }}
       >
-        <option aria-label="None" value=""></option>
+        <option
+          aria-label="None"
+          value=""
+          classes={{ root: classes.selectColor }}
+        ></option>
         {state.Makes.map((make) => (
-          <option key={make.id} value={make.id}>
+          <option
+            key={make.id}
+            value={make.id}
+            classes={{ root: classes.selectColor }}
+          >
             {make.name}
           </option>
         ))}
@@ -234,6 +245,7 @@ export function SubmitSelect() {
   return (
     <FormControl className={classes.formControl}>
       <Button
+        className={classes.button}
         disabled={state.SubmitDeactive}
         variant="contained"
         onClick={getResults}
@@ -245,18 +257,18 @@ export function SubmitSelect() {
 }
 
 export function CheckBoxes() {
-    const state = useSelector((state) => state);
-    const classes = useStyles();
-  
-    const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  const classes = useStyles();
 
-    const updateSelection = (field, selection) => {
-        dispatch(actions.updateSelection(field, selection));
-      };
+  const dispatch = useDispatch();
 
-    const handleChange = (event) => {
-        updateSelection([event.target.name], event.target.checked );
-      };
+  const updateSelection = (field, selection) => {
+    dispatch(actions.updateSelection(field, selection));
+  };
+
+  const handleChange = (event) => {
+    updateSelection([event.target.name], event.target.checked);
+  };
 
   return (
     <FormControl component="fieldset" className={classes.formControl}>
