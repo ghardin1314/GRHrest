@@ -92,17 +92,23 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # cd documents/github/grhanalytics
 # ./cloud_sql_proxy_x64.exe -instances="djangohost-273821:us-central1:grha-db"=tcp:3306 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#         'USER': username,
+#         'PASSWORD': password,
+#         'NAME': db_name,
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'USER': username,
-        'PASSWORD': password,
-        'NAME': db_name,
+        'NAME': os.path.join(BASE_DIR, 'grhLocalDB'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
