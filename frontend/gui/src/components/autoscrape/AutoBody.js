@@ -129,7 +129,7 @@ export default function AutoBody() {
           <Typography variant="body1" gutterBottom align="left">
             Next step, aquire the goods. Now that I have all the options to pick
             from, I looped through every make, model, trim combination and
-            pulled the listing results. Turns out, you can only go 1000 listings
+            pulled the listing results. Turns out, you can only go 1,000 listings
             deep into the database of the site. To get a fully representative
             data pool, I sorted the cars by distance to hopefully get an equal
             amount of older and newer cars. I also through in a splash of
@@ -141,7 +141,7 @@ export default function AutoBody() {
             database than to scape them from the site and more suprisingly I
             never hit the API limit during this. Even with the limit of results,
             this was a lot (A LOT!) of data. Somewhere in the neighborhood of {' '}
-            <b>730544</b> lisitings (Last scraped 4/15/2020). When the script finally finished without any
+            <b>730,544</b> lisitings (Last scraped 4/15/2020). When the script finally finished without any
             errors and I realized I effectively pulled all the publicly
             available data from this site I was like:
           </Typography>
@@ -271,8 +271,8 @@ export default function AutoBody() {
           </Typography>
           <Grid container justify="center">
             <img
+            alt = "convexHull"
               style={{
-                alt: "convexHull",
                 width: 300,
                 alignItems: "center",
                 justifyContent: "center",
