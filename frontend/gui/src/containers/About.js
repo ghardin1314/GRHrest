@@ -11,7 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import InstagramIcon from "@material-ui/icons/Instagram";
-
+import MyRocket from "../components/MyRocket";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,10 +35,6 @@ const useStyles = makeStyles((theme) => ({
   connectRow: {
     marginTop: theme.spacing(3),
   },
-  connectButton: {
-    // background: theme.palette.secondary.main,
-    // elevation: 5
-  },
   connectIcon: {
     fontSize: 60,
   },
@@ -55,6 +51,9 @@ export default function About() {
           </Typography>
         </Paper>
       </Grid>
+
+
+      
       <Grid
         container
         spacing={3}
@@ -95,7 +94,7 @@ export default function About() {
           </IconButton>
         </Grid>
       </Grid>
-      <Grid container spacing={2} justify="left">
+      <Grid container spacing={2} justify="center" alignItems="center">
         <ThemeProvider
           theme={(theme) =>
             createMuiTheme({
@@ -111,63 +110,85 @@ export default function About() {
             })
           }
         >
-          <Grid item xs={12} md={6} justify="left" className={classes.body}>
+          <Grid item xs={12} md={5} justify="left" className={classes.body}>
             <Typography variant="h4" gutterBottom align="left">
               About Me:
             </Typography>
             <Typography variant="body1" gutterBottom align="left">
-              Welcome, my name is Garrett Hardin. This site is going to be a
-              collection of my often random, often obtuse, but always
-              interesting (at least to me) projects. I am classicly trained as a
-              mechincal engineer and my day job is an Aerospace engineer, but I
-              always like to tinker and figure out how things work.
-            </Typography>
-            <Typography variant="body1" gutterBottom align="left">
-              This lead me into the wonderful world of coding since so much of
-              our world is driven by it. I started off coding python to analyze
-              financial data to help drive investment decisions. This turned out
-              to be quite fun and I spent an exorbitant amount of time
-              (according to my girlfriend) learning, practicing, and creating
-              code to augment various interests in Automotive, Finance, and
-              Buisness.
-            </Typography>
-            <Typography variant="body1" gutterBottom align="left">
-              After creating quite a few projects, I wanted a good way to share
-              them with the world. I decided this would also be a good time to
-              learn the always useful skill of web development and thus, this
-              site was born.
+              <p>
+                Welcome, my name is Garrett Hardin. This site is going to be a
+                collection of my often random, often obtuse, but always
+                interesting (at least to me) projects. I am classicly trained as
+                a mechincal engineer and my day job is an Aerospace engineer,
+                but I always like to tinker and figure out how things work.
+              </p>
+              <p>
+                {" "}
+                This lead me into the wonderful world of coding since so much of
+                our world is driven by it. I started off coding python to
+                analyze financial data to help drive investment decisions. This
+                turned out to be quite fun and I spent an exorbitant amount of
+                time (according to my girlfriend) learning, practicing, and
+                creating code to augment various interests in Automotive,
+                Finance, and Buisness.
+              </p>
+              <p>
+                After creating quite a few projects, I wanted a good way to
+                share them with the world. I decided this would also be a good
+                time to learn the always useful skill of web development and
+                thus, this site was born.
+              </p>
             </Typography>
             <Typography variant="h4" gutterBottom align="left">
               Goals:
             </Typography>
             <Typography variant="body1" gutterBottom align="left">
-              I would like to document all of my projects in some interactive
-              way. This might be with some data visualization technique, and
-              will also include public api documentation, where possible, incase
-              anyone would like to plug into what I have done. Each project will
-              also include links to a pubic repository if you would like to
-              clone it for yourself to tinker.
-            </Typography>
-            <Typography variant="body1" gutterBottom align="left">
-              I'd also love to find people to collaborate with on future
-              interesting projects. If you have an interesting idea and think I
-              could help, please feel free to reach out!
+              <p>
+                I would like to document all of my projects in some interactive
+                way. This might be with some data visualization technique, and
+                will also include public api documentation, where possible,
+                incase anyone would like to plug into what I have done. Each
+                project will also include links to a pubic repository if you
+                would like to clone it for yourself to tinker.
+              </p>
+              <p>
+                I'd also love to find people to collaborate with on future
+                interesting projects. If you have an interesting idea and think
+                I could help, please feel free to reach out! Also no one ever
+                accused me of being a designer. So if you have design tips, I'm
+                all ears.
+              </p>
             </Typography>
             <Typography variant="h4" gutterBottom align="left">
               Projects:
             </Typography>
             <Typography variant="body1" gutterBottom align="left">
-              This first project of this site is the website itself! It is build
-              with a React frontend fed by a Django backend. This is probably
-              overkill for a portfolio site, but I wanted the experience and
-              ability to create full stack web applications. I'll be porting
-              over many of my exsisting projects and turning them into web apps
-              over time. Please visit the projects page to see how far I have
-              gotten.
+              This first project of this site is the website itself! Tech Stack:
+              <ul>
+                <li>React (Frontend)</li>
+                <li>Redux (State Management)</li>
+                <li>Material-UI (Components/Styling)</li>
+                <li>Django (Rest API Backend)</li>
+                <li>MySQL (Database)</li>
+              </ul>
+              This is probably overkill for a portfolio site, but I wanted the
+              experience and ability to create full stack web applications. I'll
+              be porting over many of my exsisting projects and turning them
+              into web apps over time. Please visit the projects page to see how
+              far I have gotten.
             </Typography>
           </Grid>
         </ThemeProvider>
-        <Grid item xs={12} md={6}></Grid>
+        <Grid
+          item
+          container
+          xs={12}
+          md={5}
+          justify="center"
+          alignItems="center"
+        >
+          <MyRocket />
+        </Grid>
       </Grid>
     </div>
   );

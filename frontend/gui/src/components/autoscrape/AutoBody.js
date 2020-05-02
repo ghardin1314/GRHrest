@@ -21,6 +21,10 @@ import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import InstagramIcon from "@material-ui/icons/Instagram";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +50,13 @@ const useStyles = makeStyles((theme) => ({
   cardContain: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  connectRow: {
+    marginTop: theme.spacing(3),
+  },
+
+  connectIcon: {
+    fontSize: 60,
   },
 }));
 
@@ -83,7 +94,7 @@ export default function AutoBody() {
           </Typography>
         )}
       </div>
-      <Grid container spacing={2} justify="center" >
+      <Grid container spacing={2} justify="center">
         <AutoStepper />
         <ThemeProvider
           theme={(theme) =>
@@ -105,13 +116,29 @@ export default function AutoBody() {
               offset={{ top: 200, bottom: 200 }}
               onChange={(isVisible) => setStep(isVisible, 0)}
             >
-              <Typography
-                variant="h4"
-                gutterBottom
-              >
+              <Typography variant="h4" gutterBottom>
                 Explination:
               </Typography>
             </VisibilitySensor>
+            <Typography variant="h6" gutterBottom align="left">
+              Tech Stack
+            </Typography>
+            <Typography variant="body1" gutterBottom align="left">
+              <ul>
+                <li>Python</li>
+                <ul>
+                  <li>Beautiful Soup (Web Scraping)</li>
+                  <li>Threading</li>
+                  <li>Pandas/Numpy/Scipy (Data Proccessing)</li>
+                  <li>Django Rest Framework (Data Storage/Delivery)</li>
+                </ul>
+                <li>Javascript</li>
+                <ul>
+                  <li>Plotly (Data Visualization)</li>
+                </ul>
+                <li>MySQL</li>
+              </ul>
+            </Typography>
             <Typography variant="h6" gutterBottom align="left">
               Let there be data!
             </Typography>
@@ -308,7 +335,6 @@ export default function AutoBody() {
                   alignSelf: "center",
                 }}
                 src={myConvexHull}
-                // src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/ConvexHull.svg/1200px-ConvexHull.svg.png"
               />
             </Grid>
             <br />
@@ -377,7 +403,52 @@ export default function AutoBody() {
                 </Typography>
               </VisibilitySensor>
             </VisibilitySensor>
-            <div style={{ height: "500px" }}></div>
+            <Typography variant="body1" gutterBottom align="left">
+              Have so feedback about how this project could be better? Questions
+              about some methods used? Want to collaborate on a similar (or not
+              so similar) project? Don't hesitate to reach out!
+            </Typography>
+            <Grid
+              container
+              spacing={3}
+              justify="center"
+              className={classes.connectRow}
+            >
+              <Grid item>
+                <IconButton
+                  color="secondary"
+                  target="_blank"
+                  rel="noopener"
+                  href="https://www.linkedin.com/in/garrett-hardin-726446101/"
+                  className={classes.connectButton}
+                >
+                  <LinkedInIcon className={classes.connectIcon} />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  color="secondary"
+                  target="_blank"
+                  rel="noopener"
+                  href="https://github.com/ghardin1314"
+                  className={classes.connectButton}
+                >
+                  <GitHubIcon className={classes.connectIcon} />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  color="secondary"
+                  target="_blank"
+                  rel="noopener"
+                  href="https://www.instagram.com/view_of_a_g/"
+                  className={classes.connectButton}
+                >
+                  <InstagramIcon className={classes.connectIcon} />
+                </IconButton>
+              </Grid>
+            </Grid>
+            <div style={{ height: "300px" }}></div>
           </Grid>
         </ThemeProvider>
         <Hidden mdDown>

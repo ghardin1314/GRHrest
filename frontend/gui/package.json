@@ -25,7 +25,8 @@
     "react-scripts": "3.4.1",
     "react-visibility-sensor": "^5.1.1",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.1.0"
   },
   "scripts": {
     "start": "react-scripts --max_old_space_size=4096 start",

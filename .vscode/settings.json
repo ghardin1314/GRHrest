@@ -1,3 +1,18 @@
 {
-    "python.pythonPath": "C:\\Users\\ghard\\.conda\\envs\\GRHrestEnv\\python.exe"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+  }
+{
+    "python.pythonPath": "C:\\Users\\ghard\\.conda\\envs\\GRHrestEnv\\python.exe",
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext",
+        "javascript"
+    ]
 }
