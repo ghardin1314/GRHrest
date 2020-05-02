@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
+from . import views
 
 urlpatterns = [
     path('api/projects/', include('projects.api.urls')),
     path('api/autoscrape/', include('autoscrape.api.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    url(r'^', views.FrontendAppView.as_view()),
 ]
