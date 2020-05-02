@@ -19,7 +19,7 @@ export const getAutoMakes = (params) => {
   return (dispatch) => {
     dispatch(startRequest());
     axios
-      .get("http://localhost:8000/api/autoscrape/populatedMakes/")
+      .get("/api/autoscrape/populatedMakes/")
       .then((res) => {
         const data = res.data;
         // console.log(data);
@@ -32,7 +32,7 @@ export const getAutoModels = (params) => {
   return (dispatch) => {
     dispatch(startRequest());
     axios
-      .get("http://localhost:8000/api/autoscrape/populatedModels/", params)
+      .get("/api/autoscrape/populatedModels/", params)
       .then((res) => {
         const data = res.data;
         dispatch(requestSuccess("Models", data));
@@ -52,7 +52,7 @@ export const getAutoTrims = (params) => {
   return (dispatch) => {
     dispatch(startRequest());
     axios
-      .get("http://localhost:8000/api/autoscrape/populatedTrims/", params)
+      .get("/api/autoscrape/populatedTrims/", params)
       .then((res) => {
         const data = res.data;
         dispatch(requestSuccess("Trims", data));
@@ -71,7 +71,7 @@ export const getAutoResults = (params) => {
   return (dispatch) => {
     dispatch(startRequest());
     axios
-      .get("http://localhost:8000/api/autoscrape/results/", params)
+      .get("/api/autoscrape/results/", params)
       .then((res) => {
         const data = res.data;
         dispatch(requestSuccess("Results", data[0]['results']));

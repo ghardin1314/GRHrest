@@ -53,7 +53,7 @@ function CustomTopbar() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/projects/").then((res) => {
+    axios.get("/api/projects/").then((res) => {
       updateSelection("Projects", res.data);
     });
     // eslint-disable-next-line
