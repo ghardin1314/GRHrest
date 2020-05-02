@@ -46,7 +46,7 @@ export default function About() {
     <div className={classes.root}>
       <Grid item className={classes.grid}>
         <Paper elevation={5} className={classes.paper}>
-          <Typography variant="h1" display="block">
+          <Typography variant="h1" display="block" align="center">
             <b>Hi, I'm Garrett!</b>
           </Typography>
         </Paper>
@@ -110,7 +110,7 @@ export default function About() {
             })
           }
         >
-          <Grid item xs={12} md={5} justify="left" className={classes.body}>
+          <Grid item xs={12} md={5} className={classes.body}>
             <Typography variant="h4" gutterBottom align="left">
               About Me:
             </Typography>
@@ -163,7 +163,7 @@ export default function About() {
               Projects:
             </Typography>
             <Typography variant="body1" gutterBottom align="left">
-              This first project of this site is the website itself! Tech Stack:
+              The first project of this site is the website itself! Tech Stack:
               <ul>
                 <li>React (Frontend)</li>
                 <li>Redux (State Management)</li>

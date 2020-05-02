@@ -73,7 +73,6 @@ export default function AutoBody() {
 
   function backStep(isVisible, step) {
     if (!isVisible) {
-      console.log("off bottom");
       updateSelection("activeStep", step - 1);
     }
   }
@@ -113,7 +112,7 @@ export default function AutoBody() {
         >
           <Grid item xs={10} md={8} justify="center">
             <VisibilitySensor
-              offset={{ top: 200, bottom: 200 }}
+              offset={{ top: 200, }}
               onChange={(isVisible) => setStep(isVisible, 0)}
             >
               <Typography variant="h4" gutterBottom>
@@ -176,11 +175,13 @@ export default function AutoBody() {
               Next step, aquire the goods. Now that I have all the options to
               pick from, I looped through every make, model, trim combination
               and pulled the listing results. Turns out, you can only go 1,000
-              listings deep into the database of the site. To get a fully
-              representative data pool, I sorted the cars by distance to
-              hopefully get an equal amount of older and newer cars. I also
-              through in a splash of threading to speed up the process becasue I
-              ain't got time to burn like that.
+              listings deep into the database of the site.{" "}
+              <p>
+                To get a fully representative data pool, I sorted the cars by
+                distance to hopefully get an equal amount of older and newer
+                cars. I also through in a splash of threading to speed up the
+                process becasue I ain't got time to burn like that.{" "}
+              </p>
             </Typography>
             <Typography variant="body1" gutterBottom align="left">
               Suprisingly it actually took much longer to write the results to
@@ -188,9 +189,11 @@ export default function AutoBody() {
               I never hit the API limit during this. Even with the limit of
               results, this was a lot (A LOT!) of data. Somewhere in the
               neighborhood of <b>730,544</b> lisitings (Last scraped 4/15/2020).
-              When the script finally finished without any errors and I realized
-              I effectively pulled all the publicly available data from this
-              site I was like:
+              <p>
+                When the script finally finished without any errors and I
+                realized I effectively pulled all the publicly available data
+                from this site I was like:
+              </p>
             </Typography>
             <Grid container justify="center">
               <DynamicIFrame src="https://giphy.com/embed/RLWwOuPbqObupogOLB" />
@@ -299,12 +302,15 @@ export default function AutoBody() {
               display="block"
             >
               <b>
-                What if the theoretical optimal point is doesn't physically
-                exsist?
+                What if the optimal point isnt inside the actual results
+                envelope
               </b>
             </Typography>
             <Typography variant="body1" gutterBottom align="left">
-              Sounded much more profound in my head... Anyway this sent me down
+              Sounded much more profound in my head... Anyway, what I mean is
+              that since I am just searching over the min and max miles and
+              year, it could be possible the answer would be a 1 year old car
+              with 100,000 miles that doesn't actually exsist. This sent me down
               a rabbit hole of{" "}
               <Link
                 target="_blank"
@@ -314,16 +320,20 @@ export default function AutoBody() {
                 convex hulls
               </Link>
               , or finding the smallest envelope that covers the data set.
-              Luckily for me scipy has a library for that, so it took one line
-              of code to find the verticies of the year-miles convex hull. What
-              has a little more challenging was testing whether or not my
-              minimum curvature point was inside this envelope or not. I ended
-              up looping through the verticies clockwise and finding the cross
-              product of the vector to the optimal point and the vector to the
-              next vertex. If this cross product was positive for all verticies,
-              the point was inside the envelope. Lastly I looped through the
-              minimum curvature points until I found one inside my envelope.
-              DONE!
+              <p>
+                Luckily for me scipy has a library for that, so it took one line
+                of code to find the verticies of the year-miles convex hull.
+                What has a little more challenging was testing whether or not my
+                minimum curvature point was inside this envelope or not.
+              </p>
+              <p>
+                I ended up looping through the verticies clockwise and finding
+                the cross product of the vector to the optimal point and the
+                vector to the next vertex. If this cross product was positive
+                for all verticies, the point was inside the envelope. Lastly I
+                looped through the minimum curvature points until I found one
+                inside my envelope. DONE!
+              </p>
             </Typography>
             <Grid container justify="center">
               <img
@@ -404,9 +414,9 @@ export default function AutoBody() {
               </VisibilitySensor>
             </VisibilitySensor>
             <Typography variant="body1" gutterBottom align="left">
-              Have so feedback about how this project could be better? Questions
-              about some methods used? Want to collaborate on a similar (or not
-              so similar) project? Don't hesitate to reach out!
+              Have some feedback about how this project could be better?
+              Questions about some of the methods used? Want to collaborate on a
+              similar (or not so similar) project? Don't hesitate to reach out!
             </Typography>
             <Grid
               container
