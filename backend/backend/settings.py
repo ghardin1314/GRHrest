@@ -28,7 +28,7 @@ SECRET_KEY = secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['178.128.186.155']
+ALLOWED_HOSTS = ['178.128.177.146', '.grh-analytics.com', 'localhost']
 
 
 # Application definition
@@ -152,6 +152,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
 
