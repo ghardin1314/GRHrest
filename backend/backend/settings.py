@@ -28,7 +28,7 @@ SECRET_KEY = secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['178.128.177.146', '.grh-analytics.com', 'localhost']
+ALLOWED_HOSTS = ['206.189.213.48', '.grh-analytics.com', 'localhost']
 
 
 # Application definition
