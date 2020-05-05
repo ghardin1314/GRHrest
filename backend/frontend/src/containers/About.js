@@ -52,8 +52,6 @@ export default function About() {
         </Paper>
       </Grid>
 
-
-      
       <Grid
         container
         spacing={3}
@@ -123,14 +121,12 @@ export default function About() {
                 but I always like to tinker and figure out how things work.
               </p>
               <p>
-                {" "}
                 This lead me into the wonderful world of coding since so much of
                 our world is driven by it. I started off coding python to
                 analyze financial data to help drive investment decisions. This
-                turned out to be quite fun and I spent an exorbitant amount of
-                time (according to my girlfriend) learning, practicing, and
-                creating code to augment various interests in Automotive,
-                Finance, and Buisness.
+                turned out to be quite fun and I spent a possibly exorbitant
+                amount of time learning, practicing, and creating code to
+                augment various interests in Automotive, Finance, and Buisness.
               </p>
               <p>
                 After creating quite a few projects, I wanted a good way to

@@ -116,7 +116,7 @@ export default function AutoBody() {
               onChange={(isVisible) => setStep(isVisible, 0)}
             >
               <Typography variant="h4" gutterBottom>
-                Explination:
+                Explanation:
               </Typography>
             </VisibilitySensor>
             <Typography variant="h6" gutterBottom align="left">

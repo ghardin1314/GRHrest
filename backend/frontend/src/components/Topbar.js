@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 
-import * as actions from "../store/actions/AutoActions";
+
+
+import * as actions from "../store/actions/AppActions";
 
 import MobileMenu from "./MobileMenu";
 
@@ -46,16 +47,11 @@ function CustomTopbar() {
   const projects = useSelector((state) => state.Projects);
   const anchorRef = React.useRef(null);
 
-  const updateSelection = (field, selection) => {
-    dispatch(actions.updateSelection(field, selection));
-  };
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get("/api/projects/").then((res) => {
-      updateSelection("Projects", res.data);
-    });
+    dispatch(actions.getProjects());
     // eslint-disable-next-line
   }, []);
 
