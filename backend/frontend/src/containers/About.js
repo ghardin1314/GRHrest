@@ -116,7 +116,7 @@ export default function About() {
               <p>
                 Welcome, my name is Garrett Hardin. This site is going to be a
                 collection of my often random, often obtuse, but always
-                interesting (at least to me) projects. I am classicly trained as
+                interesting (at least to me) projects. I am classically trained as
                 a mechincal engineer and my day job is an Aerospace engineer,
                 but I always like to tinker and figure out how things work.
               </p>
@@ -144,7 +144,7 @@ export default function About() {
                 way. This might be with some data visualization technique, and
                 will also include public api documentation, where possible,
                 incase anyone would like to plug into what I have done. Each
-                project will also include links to a pubic repository if you
+                project will also include links to a public repository if you
                 would like to clone it for yourself to tinker.
               </p>
               <p>
@@ -170,7 +170,7 @@ export default function About() {
               </ul>
               This is probably overkill for a portfolio site, but I wanted the
               experience and ability to create full stack web applications. I'll
-              be porting over many of my exsisting projects and turning them
+              be porting over many of my existing projects and turning them
               into web apps over time. Please visit the projects page to see how
               far I have gotten.
             </Typography>
