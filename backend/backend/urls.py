@@ -21,6 +21,7 @@ from . import views
 urlpatterns = [
     path('api/projects/', include('projects.api.urls')),
     path('api/autoscrape/', include('autoscrape.api.urls')),
+     path('api/cftc/', include('CftcData.api.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     url(r'^', views.FrontendAppView.as_view()),
