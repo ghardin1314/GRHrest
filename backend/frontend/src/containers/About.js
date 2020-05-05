@@ -121,7 +121,7 @@ export default function About() {
                 but I always like to tinker and figure out how things work.
               </p>
               <p>
-                This lead me into the wonderful world of coding since so much of
+                This led me into the wonderful world of coding since so much of
                 our world is driven by it. I started off coding python to
                 analyze financial data to help drive investment decisions. This
                 turned out to be quite fun and I spent a possibly exorbitant
@@ -150,8 +150,8 @@ export default function About() {
               <p>
                 I'd also love to find people to collaborate with on future
                 interesting projects. If you have an interesting idea and think
-                I could help, please feel free to reach out! Also no one ever
-                accused me of being a designer. So if you have design tips, I'm
+                I could help, please feel free to reach out! Also, no one ever
+                accused me of being a designer. So, if you have design tips, I'm
                 all ears.
               </p>
             </Typography>
@@ -159,7 +159,8 @@ export default function About() {
               Projects:
             </Typography>
             <Typography variant="body1" gutterBottom align="left">
-              The first project of this site is the website itself! Tech Stack:
+              The first project of this site is the website itself, which I am
+              calling GRH Analytics! Tech Stack:
               <ul>
                 <li>React (Frontend)</li>
                 <li>Redux (State Management)</li>

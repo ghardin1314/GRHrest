@@ -112,7 +112,7 @@ export default function AutoBody() {
         >
           <Grid item xs={10} md={8} justify="center">
             <VisibilitySensor
-              offset={{ top: 200, }}
+              offset={{ top: 200 }}
               onChange={(isVisible) => setStep(isVisible, 0)}
             >
               <Typography variant="h4" gutterBottom>
@@ -126,12 +126,12 @@ export default function AutoBody() {
               <ul>
                 <li>Python</li>
                 <ul>
-                  <li>Beautiful Soup (Web Scraping)</li>
+                  <li>Requests (Used for Webscraping)</li>
                   <li>Threading</li>
                   <li>Pandas/Numpy/Scipy (Data Proccessing)</li>
-                  <li>Django Rest Framework (Data Storage/Delivery)</li>
+                  <li>Django Rest Framework (Backend Rest API)</li>
                 </ul>
-                <li>Javascript</li>
+                <li>JavaScript</li>
                 <ul>
                   <li>Plotly (Data Visualization)</li>
                 </ul>
@@ -148,7 +148,7 @@ export default function AutoBody() {
               listing site (where one might "trade autos"). Gathering the data
               came in two parts; finding all of the makes, models, and trims
               with used listings available, and then saving the data for the
-              inidvidual listings.
+              individual listings.
             </Typography>
             <Typography variant="h6" gutterBottom align="left">
               What are my options?
@@ -157,7 +157,7 @@ export default function AutoBody() {
               I first went to the advance search options page on the site to
               find all my options. My inital idea was to use splinter and just
               cycle through the drop down menu, but that wasn't the most
-              reliable and took forever. So while I was messing around I found
+              reliable and took forever. So, while I was messing around I found
               the internal API calls on while observing the network log on the
               browser console.
             </Typography>
@@ -293,7 +293,7 @@ export default function AutoBody() {
             <Typography variant="body1" gutterBottom align="left">
               At this point, I thought I was done. Washed my hands of and off to
               the next project. But then, in the shower (where all good
-              revlations come) I thought,
+              revelations come) I thought,
             </Typography>
             <Typography
               variant="body1"
