@@ -1,7 +1,9 @@
+import json
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from .fromFirebase import getKeys, get3YearData
+from .fromFirebase import getKeys, getData
 
 @api_view(['GET'])
 def getCFTCkeys(request):
@@ -15,17 +17,9 @@ def getCFTCdata(request):
     endDate = request.query_params.get('endDate', '')
     keyStr = request.query_params.get('keys', [])
 
-    keys = keyStr.split(', ')
+    keys = json.loads(keyStr)
 
-    # print(keys)
-
-    results = []
-
-    for key in keys:
-        print(key)
-        res = get3YearData(key, endDate )
-        results.append(res)
-
+    results = getData(keys, endDate)
 
     return Response({'results': results})
 

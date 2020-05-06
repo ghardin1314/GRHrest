@@ -1,6 +1,8 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
+// I should split this into different reducers at somepoint to reduce clutter and state overload
+
 const initialState = {
   Projects: [],
   Makes: [],
@@ -33,6 +35,8 @@ const initialState = {
   showSurface: true,
   activeStep: 0,
   visSteps: [],
+  CftcKeys: [],
+  CftcData: [],
 };
 
 const startRequest = (state, action) => {

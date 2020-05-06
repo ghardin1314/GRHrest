@@ -4,7 +4,18 @@ import statistics
 
 from .keys import config
 
+def getData(keys, endDate=''):
+    firebase = pyrebase.initialize_app(config)
+    db = firebase.database()
 
+    results = []
+
+    for key in keys:
+
+        res = get3YearData(key, db, endDate)
+        results.append(res)
+
+    return results
 
 def getKeys():
 
@@ -19,10 +30,7 @@ def getKeys():
 
     return keys
 
-def get3YearData(pbKey, endDate=''):
-
-    firebase = pyrebase.initialize_app(config)
-    db = firebase.database()
+def get3YearData(pbKey, db, endDate=''):
 
     #date input as Mo-Dy-Yr. Translate to Yr-Mo-Dy
     if endDate == '':
@@ -72,7 +80,7 @@ def get3YearData(pbKey, endDate=''):
     zScore3yr = round((netLong[-1]-avg3yr)/stdDev3yr, 2)
 
     results = {
-        pbKey: {
+        'key': pbKey,
         'Latest': latest,
         'W/W Chg': WWchange,
         '3M Avg': avg3Mo,
@@ -83,14 +91,45 @@ def get3YearData(pbKey, endDate=''):
         '1Y Z-Score': zScore1yr,
         '3Y Z-Score': zScore3yr,
         'Last Updated': lastDate
-    }}
+    }
 
     return results
 
-if __name__ == '__main__':
-    res = getKeys()
-    # print(res)
-    keys = ["10-YEAR US TREASURY NOTES"]
+def test(endDate=''):
+    firebase = pyrebase.initialize_app(config)
+    db = firebase.database()
 
-    res1 = get3YearData(res[0])
-    print(res1)
+    #date input as Mo-Dy-Yr. Translate to Yr-Mo-Dy
+    if endDate == '':
+        yr = str(datetime.now().year)[-2:] 
+        mo = datetime.now().month
+        if mo < 10:
+            mo = '0'+ str(mo)
+        else:
+            mo = str(mo)
+        dy = datetime.now().day
+        if dy < 10:
+            dy = '0'+ str(dy)
+        else:
+            dy = str(dy)
+    else:
+        yr = endDate[-2:]
+        mo = endDate[:2]
+        dy = endDate[2:4]
+    endDate = yr + mo + dy
+
+    res = db.order_by_key().end_at(endDate).limit_to_last(52*3).get()
+
+    data = res.val()
+
+    pass
+
+if __name__ == '__main__':
+    # res = getKeys()
+    # print(res)
+    # keys = ["10-YEAR US TREASURY NOTES"]
+
+    # res1 = get3YearData(res[0])
+    # print(res1)
+
+    test()

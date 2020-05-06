@@ -8,3 +8,5 @@ export const REQUEST_SUCCESS = "REQUEST_SUCCESS";
 export const UPDATE_FIELD = "UPDATE_FIELD";
 export const UNPACK_DATA = "UNPACK_DATA";
 export const GET_PROJECTS = "GET_PROJECTS";
+export const GET_CFTCKEYS = "GET_CFTCKEYS";
+export const GET_CFTCDATA = "GET_CFTCDATA";

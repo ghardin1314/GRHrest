@@ -372,7 +372,7 @@ export default function AutoBody() {
                   className={classes.linkCard}
                 >
                   <Typography variant="h6" align="center">
-                    Getting make, model, and trim data
+                    Getting make, model, <br/> and trim data
                   </Typography>
                 </Button>
               </Grid>
@@ -383,7 +383,7 @@ export default function AutoBody() {
                   className={classes.linkCard}
                 >
                   <Typography variant="h6" align="center">
-                    Getting data for every listing
+                    Getting data for <br/> every listing
                   </Typography>
                 </Button>
               </Grid>
