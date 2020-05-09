@@ -117,7 +117,7 @@ export default function About() {
                 Welcome, my name is Garrett Hardin. This site is going to be a
                 collection of my often random, often obtuse, but always
                 interesting (at least to me) projects. I am classically trained as
-                a mechincal engineer and my day job is an Aerospace engineer,
+                a Mechanical engineer and my day job is an Aerospace engineer,
                 but I always like to tinker and figure out how things work.
               </p>
               <p>
@@ -126,7 +126,7 @@ export default function About() {
                 analyze financial data to help drive investment decisions. This
                 turned out to be quite fun and I spent a possibly exorbitant
                 amount of time learning, practicing, and creating code to
-                augment various interests in Automotive, Finance, and Buisness.
+                augment various interests in Automotive, Finance, and Business.
               </p>
               <p>
                 After creating quite a few projects, I wanted a good way to
@@ -142,8 +142,8 @@ export default function About() {
               <p>
                 I would like to document all of my projects in some interactive
                 way. This might be with some data visualization technique, and
-                will also include public api documentation, where possible,
-                incase anyone would like to plug into what I have done. Each
+                will also include public API documentation, where possible,
+                if anyone would like to plug into what I have done. Each
                 project will also include links to a public repository if you
                 would like to clone it for yourself to tinker.
               </p>
@@ -151,7 +151,7 @@ export default function About() {
                 I'd also love to find people to collaborate with on future
                 interesting projects. If you have an interesting idea and think
                 I could help, please feel free to reach out! Also, no one ever
-                accused me of being a designer. So, if you have design tips, I'm
+                accused me of being a designer. So, if you have UX tips, I'm
                 all ears.
               </p>
             </Typography>

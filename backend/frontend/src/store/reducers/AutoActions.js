@@ -36,7 +36,16 @@ const initialState = {
   activeStep: 0,
   visSteps: [],
   CftcKeys: [],
-  CftcData: [],
+  CftcData: [{
+    'Latest': 0,
+    'W/W Chg': 0,
+    '3M Avg': 0,
+    '6M Avg': 0,
+    '1Y Avg': 0,
+    '3Y Max': 0,
+    '3Y Min': 0,
+    'Last Updated': ''
+  }],
 };
 
 const startRequest = (state, action) => {

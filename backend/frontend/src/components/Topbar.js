@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-
-
 import * as actions from "../store/actions/AppActions";
 
 import MobileMenu from "./MobileMenu";
@@ -47,7 +45,6 @@ function CustomTopbar() {
   const projects = useSelector((state) => state.Projects);
   const anchorRef = React.useRef(null);
 
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -71,10 +68,10 @@ function CustomTopbar() {
       <div className={classes.grow}>
         <AppBar style={{ margin: 0 }} position="fixed">
           <Toolbar>
-          <Link href="/" underline="none" color="inherit">
-            <Typography variant="h6" align="left" className={classes.title}>
+            <Link href="/" underline="none" color="inherit">
+              <Typography variant="h6" align="left" className={classes.title}>
                 GRH Analytics
-            </Typography>
+              </Typography>
             </Link>
             <Divider orientation="vertical" flexItem light />
             <Hidden smDown>
@@ -116,14 +113,14 @@ function CustomTopbar() {
                       <ClickAwayListener onClickAway={handleClose}>
                         <MenuList id="split-button-menu">
                           {projects.map((project) => (
-                            <MenuItem key={project.tag}>
-                              <Link
-                                underline="none"
-                                href={`/projects/${project.tag}/`}
-                              >
+                            <Link
+                              underline="none"
+                              href={`/projects/${project.tag}/`}
+                            >
+                              <MenuItem key={project.tag}>
                                 {project.tag}
-                              </Link>
-                            </MenuItem>
+                              </MenuItem>
+                            </Link>
                           ))}
                         </MenuList>
                       </ClickAwayListener>

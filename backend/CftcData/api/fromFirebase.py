@@ -2,7 +2,11 @@ import pyrebase
 from datetime import datetime
 import statistics
 
-from .keys import config
+try:
+    from .keys import config
+except:
+    from keys import config
+    
 
 def getData(keys, endDate=''):
     firebase = pyrebase.initialize_app(config)
@@ -56,6 +60,23 @@ def get3YearData(pbKey, db, endDate=''):
     data = res.val()
 
     netLong = []
+    if data is None:
+        
+        results = {
+        'key': pbKey,
+        'Latest': '',
+        'W/W Chg': '',
+        '3M Avg': '',
+        '6M Avg': '',
+        '1Y Avg': '',
+        '3Y Max': '',
+        '3Y Min': '',
+        '1Y Z-Score': '',
+        '3Y Z-Score': '',
+        'Last Updated': ''
+        }
+
+        return results
     keys = list(data)
     lastDate = data[keys[-1]]['date']
 
@@ -125,11 +146,10 @@ def test(endDate=''):
     pass
 
 if __name__ == '__main__':
-    # res = getKeys()
-    # print(res)
-    # keys = ["10-YEAR US TREASURY NOTES"]
+    res = getKeys()
 
-    # res1 = get3YearData(res[0])
+
+    res1 = getData(res, endDate='102415')
     # print(res1)
 
-    test()
+    # test()

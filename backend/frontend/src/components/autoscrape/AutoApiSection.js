@@ -21,7 +21,6 @@ export default function AutoApiSection() {
 
   function backStep(isVisible, step) {
     if (!isVisible) {
-      console.log("off bottom");
       updateSelection("activeStep", step - 1);
     }
   }

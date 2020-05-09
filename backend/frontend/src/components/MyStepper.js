@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import { useSelector } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -8,7 +7,6 @@ import Hidden from "@material-ui/core/Hidden";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
-
 
 const styles = (theme) => ({
   stepper: {
@@ -34,7 +32,7 @@ const styles = (theme) => ({
 });
 
 // export default function AutoStepper() {
-function AutoStepper(props) {
+function MyStepper(props) {
   // const classes = useStyles();
   const activeStep = useSelector((state) => state.activeStep);
 
@@ -70,4 +68,4 @@ function AutoStepper(props) {
   );
 }
 
-export default withStyles(styles)(AutoStepper);
+export default withStyles(styles)(MyStepper);
