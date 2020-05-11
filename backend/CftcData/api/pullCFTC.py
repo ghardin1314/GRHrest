@@ -28,9 +28,6 @@ db = firebase.database()
 for key in keys:
     ExchInput[key] = [x for x in ExchInput[key] if str(x) != 'nan']
 
-# with open('done.csv', 'r+') as f:
-    # Done = [line.strip() for line in f]
-
 
 def storeData(comod,net,date):
 
@@ -54,7 +51,7 @@ def storeData(comod,net,date):
         break
     
     print(comod,net,date)
-    # time.sleep(0.5)
+
 
 def extractData(link, key):
 
@@ -62,16 +59,12 @@ def extractData(link, key):
 
     date = link[-10:-4]
 
-    # if link in Done:
-        # return
 
     for i in range(10):
         try:
             with requests.session() as s:
                 html = s.get(built_url, timeout=30)
-                # with open('done.csv', 'a') as f:
-                #     f.write(link + '\n')
-                # break
+
         except requests.exceptions.RequestException as errt:
             print('error on {}'.format(link), errt)
             time.sleep(30)
@@ -229,11 +222,12 @@ def getHistorical():
                 continue
 
     for href in hrefs:
-        # pullResults(href)
         stripResults(href)
     pass
 
 if __name__ == '__main__':
     stripRecent()
+
+    # getHistorical()
 
     # stripResults('/MarketReports/CommitmentsofTraders/HistoricalViewable/cot031720')

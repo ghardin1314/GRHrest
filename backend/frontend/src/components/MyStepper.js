@@ -17,7 +17,6 @@ const styles = (theme) => ({
     paddingTop: "50px",
     paddingBottom: "40px",
     zIndex: 5,
-    // color: '#ff6f5e'
   },
   root: {
     "&$active": {
@@ -31,12 +30,12 @@ const styles = (theme) => ({
   completed: {},
 });
 
-// export default function AutoStepper() {
+
 function MyStepper(props) {
-  // const classes = useStyles();
+
   const activeStep = useSelector((state) => state.activeStep);
 
-  const steps = ["Explination", "API", "Github", "Feedback & Connect"];
+  const steps = ["Explanation", "API", "Github", "Feedback & Connect"];
 
   return (
     <Hidden mdDown>
